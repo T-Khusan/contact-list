@@ -1,26 +1,26 @@
 package storage
 
 import (
-	"position_service/storage/repo"
+	"contact_service/storage/repo"
 
 	"github.com/jmoiron/sqlx"
 )
 
 type StorageI interface {
-	Profession() repo.ProfessionRepoI
-	Position() repo.PositionRepoI
-	Attribute() repo.AttributeRepoI
+	Contact() repo.ContactRepoI
 }
 
 type storagePg struct {
-	db         *sqlx.DB
-	profession repo.ProfessionRepoI
-	position   repo.PositionRepoI
-	attribute  repo.AttributeRepoI
+	db      *sqlx.DB
+	contact repo.ContactRepoI
 }
 
 func NewStoragePg(db *sqlx.DB) StorageI {
 	return &storagePg{
 		db: db,
 	}
+}
+
+func (s *storagePg) Contact() repo.ContactRepoI {
+	return s.contact
 }
