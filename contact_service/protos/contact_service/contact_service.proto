@@ -1,0 +1,10 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/contact_service";
+
+import "contact.proto";
+
+service PositionService {
+    rpc Create(Contact) returns (ContactId) {}
+}

@@ -1,8 +1,8 @@
 package helper
 
 import (
+	"contact_service/pkg/logger"
 	"database/sql"
-	"position_service/pkg/logger"
 	"time"
 
 	// "bitbucket.org/Udevs/position_service/pkg/logger"

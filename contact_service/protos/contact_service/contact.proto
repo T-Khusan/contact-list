@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/contact_service";
+
+
+message Contact {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+}
+
+message ContactId {
+    string id = 1;
+}

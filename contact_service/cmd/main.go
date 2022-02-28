@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"net"
-	"position_service/config"
-	"position_service/pkg/logger"
+	"contact_service/config"
+	"contact_service/pkg/logger"
+
+	// "position_service/config"
+	// "position_service/pkg/logger"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
