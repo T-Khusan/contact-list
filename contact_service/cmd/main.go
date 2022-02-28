@@ -1,24 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"net"
 	"contact_service/config"
 	"contact_service/pkg/logger"
+	"fmt"
+	"net"
 
-	// "position_service/config"
-	// "position_service/pkg/logger"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 	cfg := config.Load()
 
-	log := logger.New(cfg.Environment, "position_service")
+	log := logger.New(cfg.Environment, "contact_service")
 	defer logger.Cleanup(log)
 
 	conStr := fmt.Sprintf("host=%s port=%v user=%s password=%s dbname=%s sslmode=%s",
@@ -30,11 +29,11 @@ func main() {
 		"disable",
 	)
 
-	// db, err := sqlx.Connect("postgres", conStr)
-	// if err != nil {
-	// 	log.Error("error while connecting database", logger.Error(err))
-	// 	return
-	// }
+	db, err := sqlx.Connect("postgres", conStr)
+	if err != nil {
+		log.Error("error while connecting database", logger.Error(err))
+		return
+	}
 
 	lis, err := net.Listen("tcp", cfg.RPCPort)
 	if err != nil {
