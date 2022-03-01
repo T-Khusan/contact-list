@@ -27,5 +27,5 @@ message GetAllContactResponse {
 
 message ContactUpdate {
     string name = 1;
-    string phone = 3;
+    string phone = 2;
 }
