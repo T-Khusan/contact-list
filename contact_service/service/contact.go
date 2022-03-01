@@ -66,3 +66,15 @@ func (s *contactService) Update(ctx context.Context, req *contact_service.Contac
 		Phone: resp,
 	}, nil
 }
+
+func (s *contactService) Delete(ctx context.Context, req *contact_service.ContactId) (*contact_service.ContactUpdate, error) {
+	resp, err := s.storage.Contact().Delete(req.Id)
+	if err != nil {
+		return nil, helper.HandleError(s.logger, err, "error while deleting contact", req, codes.Internal)
+	}
+
+	return &contact_service.ContactUpdate{
+		Name: resp,
+		Phone: resp,
+	}, nil
+}

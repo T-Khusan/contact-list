@@ -10,5 +10,6 @@ service ContactService {
     rpc GetAll(GetAllContactRequest) returns (GetAllContactResponse) {}
     rpc Get(ContactId) returns (Contact) {}
     rpc Update(Contact) returns (ContactUpdate) {}
+    rpc Delete(ContactId) returns (ContactUpdate) {}
 
 }

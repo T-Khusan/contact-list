@@ -152,3 +152,14 @@ func (r *contactRepo) Update(req *contact_service.Contact) (string, error) {
 
 	return "Updated successfuly", nil
 }
+
+func (r *contactRepo) Delete(id string) (string, error) {
+	query := `DELETE FROM contact WHERE id = $1`
+
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return "", err
+	}
+
+	return "Deleted one row successfuly", nil
+}

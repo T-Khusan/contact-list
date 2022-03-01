@@ -29,7 +29,7 @@ var file_contact_service_proto_rawDesc = []byte{
 	0x0a, 0x15, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x1a, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x32, 0xfa, 0x01, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x53, 0x65, 0x72, 0x76,
+	0x32, 0xb4, 0x02, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x53, 0x65, 0x72, 0x76,
 	0x69, 0x63, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x11, 0x2e,
 	0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74,
 	0x1a, 0x13, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74,
@@ -44,10 +44,13 @@ var file_contact_service_proto_rawDesc = []byte{
 	0x61, 0x63, 0x74, 0x22, 0x00, 0x12, 0x36, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12,
 	0x11, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61,
 	0x63, 0x74, 0x1a, 0x17, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f,
-	0x6e, 0x74, 0x61, 0x63, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x22, 0x00, 0x42, 0x1a, 0x5a,
-	0x18, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63,
-	0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x6e, 0x74, 0x61, 0x63, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x22, 0x00, 0x12, 0x38, 0x0a,
+	0x06, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x13, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x49, 0x64, 0x1a, 0x17, 0x2e, 0x67,
+	0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x22, 0x00, 0x42, 0x1a, 0x5a, 0x18, 0x67, 0x65, 0x6e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_contact_service_proto_goTypes = []interface{}{
@@ -62,12 +65,14 @@ var file_contact_service_proto_depIdxs = []int32{
 	1, // 1: genproto.ContactService.GetAll:input_type -> genproto.GetAllContactRequest
 	2, // 2: genproto.ContactService.Get:input_type -> genproto.ContactId
 	0, // 3: genproto.ContactService.Update:input_type -> genproto.Contact
-	2, // 4: genproto.ContactService.Create:output_type -> genproto.ContactId
-	3, // 5: genproto.ContactService.GetAll:output_type -> genproto.GetAllContactResponse
-	0, // 6: genproto.ContactService.Get:output_type -> genproto.Contact
-	4, // 7: genproto.ContactService.Update:output_type -> genproto.ContactUpdate
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	2, // 4: genproto.ContactService.Delete:input_type -> genproto.ContactId
+	2, // 5: genproto.ContactService.Create:output_type -> genproto.ContactId
+	3, // 6: genproto.ContactService.GetAll:output_type -> genproto.GetAllContactResponse
+	0, // 7: genproto.ContactService.Get:output_type -> genproto.Contact
+	4, // 8: genproto.ContactService.Update:output_type -> genproto.ContactUpdate
+	4, // 9: genproto.ContactService.Delete:output_type -> genproto.ContactUpdate
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -114,6 +119,7 @@ type ContactServiceClient interface {
 	GetAll(ctx context.Context, in *GetAllContactRequest, opts ...grpc.CallOption) (*GetAllContactResponse, error)
 	Get(ctx context.Context, in *ContactId, opts ...grpc.CallOption) (*Contact, error)
 	Update(ctx context.Context, in *Contact, opts ...grpc.CallOption) (*ContactUpdate, error)
+	Delete(ctx context.Context, in *ContactId, opts ...grpc.CallOption) (*ContactUpdate, error)
 }
 
 type contactServiceClient struct {
@@ -160,12 +166,22 @@ func (c *contactServiceClient) Update(ctx context.Context, in *Contact, opts ...
 	return out, nil
 }
 
+func (c *contactServiceClient) Delete(ctx context.Context, in *ContactId, opts ...grpc.CallOption) (*ContactUpdate, error) {
+	out := new(ContactUpdate)
+	err := c.cc.Invoke(ctx, "/genproto.ContactService/Delete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ContactServiceServer is the server API for ContactService service.
 type ContactServiceServer interface {
 	Create(context.Context, *Contact) (*ContactId, error)
 	GetAll(context.Context, *GetAllContactRequest) (*GetAllContactResponse, error)
 	Get(context.Context, *ContactId) (*Contact, error)
 	Update(context.Context, *Contact) (*ContactUpdate, error)
+	Delete(context.Context, *ContactId) (*ContactUpdate, error)
 }
 
 // UnimplementedContactServiceServer can be embedded to have forward compatible implementations.
@@ -183,6 +199,9 @@ func (*UnimplementedContactServiceServer) Get(context.Context, *ContactId) (*Con
 }
 func (*UnimplementedContactServiceServer) Update(context.Context, *Contact) (*ContactUpdate, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedContactServiceServer) Delete(context.Context, *ContactId) (*ContactUpdate, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 
 func RegisterContactServiceServer(s *grpc.Server, srv ContactServiceServer) {
@@ -261,6 +280,24 @@ func _ContactService_Update_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContactService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContactId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContactServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ContactService/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContactServiceServer).Delete(ctx, req.(*ContactId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ContactService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "genproto.ContactService",
 	HandlerType: (*ContactServiceServer)(nil),
@@ -280,6 +317,10 @@ var _ContactService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _ContactService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _ContactService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
