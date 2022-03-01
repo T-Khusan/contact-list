@@ -45,3 +45,12 @@ func (s *contactService) GetAll(ctx context.Context, req *contact_service.GetAll
 
 	return resp, nil
 }
+
+func (s *contactService) Get(ctx context.Context, req *contact_service.ContactId) (*contact_service.Contact, error) {
+	contact, err := s.storage.Contact().Get(req.Id)
+	if err != nil {
+		return nil, helper.HandleError(s.logger, err, "error while getting contact", req, codes.Internal)
+	}
+
+	return contact, nil
+}

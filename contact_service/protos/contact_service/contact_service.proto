@@ -8,4 +8,6 @@ import "contact.proto";
 service ContactService {
     rpc Create(Contact) returns (ContactId) {}
     rpc GetAll(GetAllContactRequest) returns (GetAllContactResponse) {}
+    rpc Get(ContactId) returns (Contact) {}
+
 }

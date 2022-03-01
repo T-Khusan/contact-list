@@ -99,3 +99,22 @@ func (r *contactRepo) GetAll(req *contact_service.GetAllContactRequest) (*contac
 	}, nil
 
 }
+
+func (r *contactRepo) Get(id string) (*contact_service.Contact, error) {
+	var contact contact_service.Contact
+
+	query := `SELECT id, name, phone FROM contact WHERE id = $1`
+
+	row := r.db.QueryRow(query, id)
+	err := row.Scan(
+		&contact.Id,
+		&contact.Name,
+		&contact.Phone,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &contact, nil
+}
