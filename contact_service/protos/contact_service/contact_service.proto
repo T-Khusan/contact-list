@@ -9,5 +9,6 @@ service ContactService {
     rpc Create(Contact) returns (ContactId) {}
     rpc GetAll(GetAllContactRequest) returns (GetAllContactResponse) {}
     rpc Get(ContactId) returns (Contact) {}
+    rpc Update(Contact) returns (ContactUpdate) {}
 
 }

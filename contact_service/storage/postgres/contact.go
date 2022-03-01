@@ -4,6 +4,7 @@ import (
 	"contact_service/genproto/contact_service"
 	"contact_service/storage/repo"
 	"context"
+	"database/sql"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -42,9 +43,9 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 
 func (r *contactRepo) GetAll(req *contact_service.GetAllContactRequest) (*contact_service.GetAllContactResponse, error) {
 	var (
-		filter      string
-		args        = make(map[string]interface{})
-		count       int32
+		filter   string
+		args     = make(map[string]interface{})
+		count    int32
 		contacts []*contact_service.Contact
 	)
 
@@ -91,11 +92,11 @@ func (r *contactRepo) GetAll(req *contact_service.GetAllContactRequest) (*contac
 		}
 
 		contacts = append(contacts, &contact)
-	} 
+	}
 
 	return &contact_service.GetAllContactResponse{
 		Contacts: contacts,
-		Count:       count,
+		Count:    count,
 	}, nil
 
 }
@@ -117,4 +118,37 @@ func (r *contactRepo) Get(id string) (*contact_service.Contact, error) {
 	}
 
 	return &contact, nil
+}
+
+func (r *contactRepo) Update(req *contact_service.Contact) (string, error) {
+	var (
+		err error
+		tx  *sql.Tx
+	)
+
+	tx, err = r.db.Begin()
+
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		} else {
+			tx.Commit()
+		}
+	}()
+	if err != nil {
+		return "", err
+	}
+
+	query := `
+		UPDATE contact
+		SET name = $1, phone = $2
+		WHERE id = $3
+	`
+
+	_, err = tx.Exec(query, req.Name, req.Phone, req.Id)
+	if err != nil {
+		return "", err
+	}
+
+	return "Updated successfuly", nil
 }

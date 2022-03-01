@@ -54,3 +54,15 @@ func (s *contactService) Get(ctx context.Context, req *contact_service.ContactId
 
 	return contact, nil
 }
+
+func (s *contactService) Update(ctx context.Context, req *contact_service.Contact) (*contact_service.ContactUpdate, error) {
+	resp, err := s.storage.Contact().Update(req)
+	if err != nil {
+		return nil, helper.HandleError(s.logger, err, "error while updating contact", req, codes.Internal)
+	}
+
+	return &contact_service.ContactUpdate{
+		Name: resp,
+		Phone: resp,
+	}, nil
+}

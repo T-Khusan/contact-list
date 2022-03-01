@@ -24,3 +24,8 @@ message GetAllContactResponse {
     repeated Contact contacts = 1;
     int32 count = 2;
 }
+
+message ContactUpdate {
+    string name = 1;
+    string phone = 3;
+}
