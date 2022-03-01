@@ -5,6 +5,6 @@ option go_package="genproto/contact_service";
 
 import "contact.proto";
 
-service PositionService {
+service ContactService {
     rpc Create(Contact) returns (ContactId) {}
 }

@@ -6,6 +6,7 @@ import (
 	"contact_service/pkg/logger"
 	"contact_service/storage"
 	"context"
+	"fmt"
 
 	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc/codes"
@@ -14,6 +15,7 @@ import (
 type contactService struct {
 	logger  logger.Logger
 	storage storage.StorageI
+	contact_service.UnimplementedContactServiceServer
 }
 
 func NewContactService(db *sqlx.DB, log logger.Logger) *contactService {
@@ -24,7 +26,8 @@ func NewContactService(db *sqlx.DB, log logger.Logger) *contactService {
 }
 
 func (s *contactService) Create(ctx context.Context, req *contact_service.Contact) (*contact_service.ContactId, error) {
-	id, err := s.storage.Contact().Create(req)
+	fmt.Println(s.storage)
+	id, err := s.storage.Contact().Create(ctx, req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while create contact", req, codes.Internal)
 	}

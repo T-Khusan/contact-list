@@ -2,10 +2,11 @@ package main
 
 import (
 	"contact_service/config"
+	"contact_service/genproto/contact_service"
 	"contact_service/pkg/logger"
+	"contact_service/service"
 	"fmt"
 	"net"
-
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -41,8 +42,12 @@ func main() {
 		return
 	}
 
+	contactService := service.NewContactService(db, log)
+
 	s := grpc.NewServer()
 	reflection.Register(s)
+
+	contact_service.RegisterContactServiceServer(s, contactService)
 
 	log.Info("main: server running",
 		logger.String("port", cfg.RPCPort))

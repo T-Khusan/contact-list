@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"contact_service/storage/postgres"
 	"contact_service/storage/repo"
 
 	"github.com/jmoiron/sqlx"
@@ -17,10 +18,11 @@ type storagePg struct {
 
 func NewStoragePg(db *sqlx.DB) StorageI {
 	return &storagePg{
-		db: db,
+		db:      db,
+		contact: postgres.NewContactRepo(db),
 	}
 }
 
 func (s *storagePg) Contact() repo.ContactRepoI {
-	return s.contact
+	return s.contact // check nil
 }

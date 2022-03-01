@@ -29,13 +29,13 @@ var file_contact_service_proto_rawDesc = []byte{
 	0x0a, 0x15, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x1a, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x32, 0x45, 0x0a, 0x0f, 0x50, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x11, 0x2e,
-	0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74,
-	0x1a, 0x13, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74,
-	0x61, 0x63, 0x74, 0x49, 0x64, 0x22, 0x00, 0x42, 0x1a, 0x5a, 0x18, 0x67, 0x65, 0x6e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x32, 0x44, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x11, 0x2e, 0x67,
+	0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x1a,
+	0x13, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x61,
+	0x63, 0x74, 0x49, 0x64, 0x22, 0x00, 0x42, 0x1a, 0x5a, 0x18, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_contact_service_proto_goTypes = []interface{}{
@@ -43,8 +43,8 @@ var file_contact_service_proto_goTypes = []interface{}{
 	(*ContactId)(nil), // 1: genproto.ContactId
 }
 var file_contact_service_proto_depIdxs = []int32{
-	0, // 0: genproto.PositionService.Create:input_type -> genproto.Contact
-	1, // 1: genproto.PositionService.Create:output_type -> genproto.ContactId
+	0, // 0: genproto.ContactService.Create:input_type -> genproto.Contact
+	1, // 1: genproto.ContactService.Create:output_type -> genproto.ContactId
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -85,72 +85,72 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// PositionServiceClient is the client API for PositionService service.
+// ContactServiceClient is the client API for ContactService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type PositionServiceClient interface {
+type ContactServiceClient interface {
 	Create(ctx context.Context, in *Contact, opts ...grpc.CallOption) (*ContactId, error)
 }
 
-type positionServiceClient struct {
+type contactServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPositionServiceClient(cc grpc.ClientConnInterface) PositionServiceClient {
-	return &positionServiceClient{cc}
+func NewContactServiceClient(cc grpc.ClientConnInterface) ContactServiceClient {
+	return &contactServiceClient{cc}
 }
 
-func (c *positionServiceClient) Create(ctx context.Context, in *Contact, opts ...grpc.CallOption) (*ContactId, error) {
+func (c *contactServiceClient) Create(ctx context.Context, in *Contact, opts ...grpc.CallOption) (*ContactId, error) {
 	out := new(ContactId)
-	err := c.cc.Invoke(ctx, "/genproto.PositionService/Create", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/genproto.ContactService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PositionServiceServer is the server API for PositionService service.
-type PositionServiceServer interface {
+// ContactServiceServer is the server API for ContactService service.
+type ContactServiceServer interface {
 	Create(context.Context, *Contact) (*ContactId, error)
 }
 
-// UnimplementedPositionServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedPositionServiceServer struct {
+// UnimplementedContactServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedContactServiceServer struct {
 }
 
-func (*UnimplementedPositionServiceServer) Create(context.Context, *Contact) (*ContactId, error) {
+func (*UnimplementedContactServiceServer) Create(context.Context, *Contact) (*ContactId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 
-func RegisterPositionServiceServer(s *grpc.Server, srv PositionServiceServer) {
-	s.RegisterService(&_PositionService_serviceDesc, srv)
+func RegisterContactServiceServer(s *grpc.Server, srv ContactServiceServer) {
+	s.RegisterService(&_ContactService_serviceDesc, srv)
 }
 
-func _PositionService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ContactService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Contact)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).Create(ctx, in)
+		return srv.(ContactServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/genproto.PositionService/Create",
+		FullMethod: "/genproto.ContactService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).Create(ctx, req.(*Contact))
+		return srv.(ContactServiceServer).Create(ctx, req.(*Contact))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _PositionService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "genproto.PositionService",
-	HandlerType: (*PositionServiceServer)(nil),
+var _ContactService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "genproto.ContactService",
+	HandlerType: (*ContactServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Create",
-			Handler:    _PositionService_Create_Handler,
+			Handler:    _ContactService_Create_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
