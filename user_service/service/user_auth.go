@@ -1,39 +1,27 @@
 package service
 
 import (
-	// "contact_service/genproto/contact_service"
+	"net/http"
+	"user_service"
 
-	"context"
-	"fmt"
-	"user_service/pkg/helper"
-	"user_service/pkg/logger"
-	"user_service/storage"
-
-	"github.com/jmoiron/sqlx"
-	"google.golang.org/grpc/codes"
+	"github.com/gin-gonic/gin"
 )
 
-type contactService struct {
-	logger  logger.Logger
-	storage storage.StorageI
-	contact_service.UnimplementedContactServiceServer
-}
+func (h *Handler) signUp(c *gin.Context) {
+	var user user_service.User
 
-func NewContactService(db *sqlx.DB, log logger.Logger) *contactService {
-	return &contactService{
-		logger:  log,
-		storage: storage.NewStoragePg(db),
+	if err := c.BindJSON(&user); err != nil {
+		newErrorResponce(c, http.StatusBadRequest, err.Error())
+		return
 	}
-}
 
-func (s *contactService) Create(ctx context.Context, req *contact_service.Contact) (*contact_service.ContactId, error) {
-	fmt.Println(s.storage)
-	id, err := s.storage.Contact().Create(ctx, req)
+	id, err := h.service.CreateUser(user)
 	if err != nil {
-		return nil, helper.HandleError(s.logger, err, "error while create contact", req, codes.Internal)
+		newErrorResponce(c, http.StatusBadRequest, err.Error())
+		return
 	}
 
-	return &contact_service.ContactId{
-		Id: id,
-	}, nil
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": id,
+	})
 }

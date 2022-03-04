@@ -1,27 +1,32 @@
 package postgres
 
 import (
-	"net/http"
 	"user_service"
 
-	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
-func (h *Handler) signUp(c *gin.Context) {
-	var user user_service.User
+// AuthPostgres ...
+type AuthPostgres struct {
+	db *sqlx.DB
+}
 
-	if err := c.BindJSON(&user); err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
-		return
+// NewAuthPostgres ...
+func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
+	return &AuthPostgres{
+		db: db,
+	}
+}
+
+// CreateUser ...
+func (r *AuthPostgres) CreateUser(user user_service.User) (int, error) {
+	var id int
+	query := "INSERT INTO users (name, username, password) VALUES ($1, $2, $3) RETURNING id"
+
+	row := r.db.QueryRow(query, user.Name, user.Lastname, user.Password)
+	if err := row.Scan(&id); err != nil {
+		return 0, err
 	}
 
-	id, err := h.service.CreateUser(user)
-	if err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
+	return id, nil
 }

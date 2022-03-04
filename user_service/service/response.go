@@ -1,4 +1,4 @@
-package postgres
+package service
 
 import (
 	"github.com/gin-gonic/gin"
