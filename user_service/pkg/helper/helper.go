@@ -1,11 +1,10 @@
 package helper
 
 import (
-	"contact_service/pkg/logger"
 	"database/sql"
 	"time"
+	"user_service/pkg/logger"
 
-	// "bitbucket.org/Udevs/position_service/pkg/logger"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

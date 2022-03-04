@@ -1,12 +1,11 @@
 package main
 
 import (
-	"contact_service/config"
-	"contact_service/genproto/contact_service"
-	"contact_service/pkg/logger"
-	"contact_service/service"
 	"fmt"
 	"net"
+	"user_service/config"
+	"user_service/pkg/logger"
+	"user_service/service"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -18,7 +17,7 @@ import (
 func main() {
 	cfg := config.Load()
 
-	log := logger.New(cfg.Environment, "contact_service")
+	log := logger.New(cfg.Environment, "user_service")
 	defer logger.Cleanup(log)
 
 	conStr := fmt.Sprintf("host=%s port=%v user=%s password=%s dbname=%s sslmode=%s",
