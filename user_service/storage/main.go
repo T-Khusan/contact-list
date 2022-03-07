@@ -1,27 +1,28 @@
 package storage
 
 import (
-	"user_service"
-	"user_service/service"
+	"user_service/storage/postgres"
+	"user_service/storage/repo"
+
+	"github.com/jmoiron/sqlx"
 )
 
-// Handler struct
-type Handler struct {
-	service *service.Service
+type StorageI interface {
+	User() repo.UserRepoI
 }
 
-// NewHandler ...
-func NewHandler(service *service.Service) *Handler {
-	return &Handler{
-		service: service,
+type storagePg struct {
+	db   *sqlx.DB
+	user repo.UserRepoI
+}
+
+func NewStoragePg(db *sqlx.DB) StorageI {
+	return &storagePg{
+		db:      db,
+		user: postgres.NewAuthPostgres(db),
 	}
 }
 
-// Authorization ...
-type Authorization interface {
-	CreateUser(user user_service.User) (int, error)
-}
-
-type Service struct {
-	Authorization
+func (s *storagePg) User() repo.UserRepoI {
+	return s.user // check nil
 }
