@@ -2,24 +2,23 @@ package postgres
 
 import (
 	"user_service"
+	"user_service/storage/repo"
 
 	"github.com/jmoiron/sqlx"
 )
 
 // AuthPostgres ...
-type AuthPostgres struct {
+type userRepo struct {
 	db *sqlx.DB
 }
 
 // NewAuthPostgres ...
-func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
-	return &AuthPostgres{
-		db: db,
-	}
+func NewAuthPostgres(db *sqlx.DB) repo.UserRepoI {
+	return &userRepo{db: db}
 }
 
 // CreateUser ...
-func (r *AuthPostgres) CreateUser(user user_service.User) (int, error) {
+func (r *userRepo) CreateUser(user user_service.User) (int, error) {
 	var id int
 	query := "INSERT INTO users (name, username, password) VALUES ($1, $2, $3) RETURNING id"
 

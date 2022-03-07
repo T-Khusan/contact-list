@@ -1,27 +1,41 @@
 package service
 
 import (
-	"net/http"
+	"crypto/sha1"
+	"fmt"
 	"user_service"
+	"user_service/pkg/logger"
+	"user_service/storage"
 
-	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
-func (h *Handler) signUp(c *gin.Context) {
-	var user user_service.User
+type userService struct {
+	logger  logger.Logger
+	storage storage.StorageI
+}
 
-	if err := c.BindJSON(&user); err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
-		return
+const (
+	salt = "aSWdkh6465a4dEWdyKHJS"
+)
+
+
+func NewUserService(db *sqlx.DB, log logger.Logger) *userService {
+	return &userService{
+		logger:  log,
+		storage: storage.NewStoragePg(db),
 	}
+}
 
-	id, err := h.service.CreateUser(user)
-	if err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
-		return
-	}
+// CreateUser ...
+func (s *userService) CreateUser(user user_service.User) (int, error) {
+	user.Password = hashPassword(user.Password)
+	return s.storage.User().CreateUser(user)
+}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
+func hashPassword(pass string) string {
+	hash := sha1.New()
+	hash.Write([]byte(pass))
+
+	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
