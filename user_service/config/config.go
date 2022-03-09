@@ -50,7 +50,7 @@ func Load() Config {
 	c.ProducerServicePort = cast.ToInt(getOrReturnDefault("PRODUCER_SERVICE_PORT", 5003))
 
 	c.LogLevel = cast.ToString(getOrReturnDefault("LOG_LEVEL", "debug"))
-	c.RPCPort = cast.ToString(getOrReturnDefault("RPC_PORT", ":5000"))
+	c.RPCPort = cast.ToString(getOrReturnDefault("RPC_PORT", ":5004"))
 
 	c.PasscodePool = cast.ToString(getOrReturnDefault("PASSCODE_POOL", "0123456789"))
 	c.PasscodeLength = cast.ToInt(getOrReturnDefault("PASSCODE_LENGTH", "6"))

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"user_service/config"
+	"user_service/genproto/user_service"
 	"user_service/pkg/logger"
 	"user_service/service"
 
@@ -41,12 +42,12 @@ func main() {
 		return
 	}
 
-	contactService := service.NewContactService(db, log)
+	userService := service.NewUserService(db, log)
 
 	s := grpc.NewServer()
 	reflection.Register(s)
 
-	contact_service.RegisterContactServiceServer(s, contactService)
+	user_service.RegisterUserServiceServer(s, userService)
 
 	log.Info("main: server running",
 		logger.String("port", cfg.RPCPort))
