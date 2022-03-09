@@ -4,11 +4,13 @@ import (
 	"context"
 	"crypto/sha1"
 	"fmt"
+	"time"
 	"user_service/genproto/user_service"
 	"user_service/pkg/helper"
 	"user_service/pkg/logger"
 	"user_service/storage"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc/codes"
 )
@@ -20,7 +22,14 @@ type userService struct {
 
 const (
 	salt = "aSWdkh6465a4dEWdyKHJS"
+	timeToken = 12 * time.Hour
+	signingKey = "asd12aHJGJHG4sad"
 )
+
+type tokenClaims struct {
+	UserID string
+	jwt.StandardClaims
+}
 
 func NewUserService(db *sqlx.DB, log logger.Logger) *userService {
 	return &userService{
@@ -40,6 +49,26 @@ func (s *userService) CreateUser(ctx context.Context, req *user_service.User) (*
 	return &user_service.UserId{
 		Id: id,
 	}, nil
+}
+
+// GenerateToken ...
+func (s *userService) GenerateToken(username, password string) (string, error) {
+	user, err := s.storage.User().GetUser(username, hashPassword(password))
+	if err != nil {
+		return "", err
+	}
+
+	tk := tokenClaims{
+		user.Id,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(timeToken).Unix(),
+			IssuedAt:  time.Now().Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
+
+	return token.SignedString([]byte(signingKey))
 }
 
 func hashPassword(pass string) string {

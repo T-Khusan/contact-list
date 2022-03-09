@@ -29,3 +29,12 @@ func (r *userRepo) CreateUser(req *user_service.User) (string, error) {
 
 	return id, nil
 }
+
+// GetUser get database user
+func (r *userRepo) GetUser(username, password string) (*user_service.User, error) {
+	var user user_service.User
+	query := "SELECT id FROM users WHERE username=$1 AND password=$2"
+	err := r.db.Get(&user, query, username, password)
+
+	return &user, err
+}
