@@ -1,0 +1,1219 @@
+definitions:
+  config.Config:
+    properties:
+      companyServiceHost:
+        type: string
+      companyServicePort:
+        type: integer
+      environment:
+        description: develop, staging, production
+        type: string
+      httpPort:
+        type: string
+      logLevel:
+        type: string
+      minioAccessKeyID:
+        type: string
+      minioBucketName:
+        type: string
+      minioEndpoint:
+        type: string
+      minioHost:
+        type: string
+      minioLocation:
+        type: string
+      minioSecretKey:
+        type: string
+      positionServiceHost:
+        type: string
+      positionServicePort:
+        type: integer
+    type: object
+  models.AttributeModel:
+    properties:
+      attribute_type:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CompanyModel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateAttributeModel:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+    required:
+    - name
+    - type
+    type: object
+  models.CreateCompanyModel:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.CreateProfessionModel:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  models.GetAllAttributeModel:
+    properties:
+      attributes:
+        items:
+          $ref: '#/definitions/models.AttributeModel'
+        type: array
+      count:
+        type: integer
+    type: object
+  models.GetAllCompanyModel:
+    properties:
+      companies:
+        items:
+          $ref: '#/definitions/models.CompanyModel'
+        type: array
+      count:
+        type: integer
+    type: object
+  models.GetAllProfessionModel:
+    properties:
+      count:
+        type: integer
+      professions:
+        items:
+          $ref: '#/definitions/models.ProfessionModel'
+        type: array
+    type: object
+  models.NameModel:
+    properties:
+      name:
+        type: string
+    type: object
+  models.ProfessionModel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.ResponseModel:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error: {}
+      message:
+        type: string
+    type: object
+  position_service.Attribute:
+    properties:
+      attribute_type:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  position_service.CreatePositionRequest:
+    properties:
+      company_id:
+        type: string
+      name:
+        type: string
+      position_attributes:
+        items:
+          $ref: '#/definitions/position_service.PositionAttribute'
+        type: array
+      profession_id:
+        type: string
+    type: object
+  position_service.GetAllPositionResponse:
+    properties:
+      count:
+        type: integer
+      positions:
+        items:
+          $ref: '#/definitions/position_service.GetPositionResponse'
+        type: array
+    type: object
+  position_service.GetPositionAttribute:
+    properties:
+      attribute:
+        $ref: '#/definitions/position_service.Attribute'
+      attribute_id:
+        type: string
+      id:
+        type: string
+      value:
+        type: string
+    type: object
+  position_service.GetPositionResponse:
+    properties:
+      company_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      position_attributes:
+        items:
+          $ref: '#/definitions/position_service.GetPositionAttribute'
+        type: array
+      profession_id:
+        type: string
+    type: object
+  position_service.PositionAttribute:
+    properties:
+      attribute_id:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /config:
+    get:
+      consumes:
+      - application/json
+      description: shows config of the project only on the development phase
+      operationId: get-config
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.Config'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: gets project config
+      tags:
+      - config
+  /v1/attribute:
+    get:
+      consumes:
+      - application/json
+      description: Get All Attribute
+      operationId: get_all_attribute
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllAttributeModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get All Attribute
+      tags:
+      - attribute
+    post:
+      consumes:
+      - application/json
+      description: Create Attribute
+      operationId: create_profession
+      parameters:
+      - description: attribute
+        in: body
+        name: attribute
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAttributeModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create Attribute
+      tags:
+      - attribute
+  /v1/attribute/{attribute_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Attribute by given ID
+      operationId: delete_attribute
+      parameters:
+      - description: attribute_id
+        in: path
+        name: attribute_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete Attribute
+      tags:
+      - attribute
+    get:
+      consumes:
+      - application/json
+      description: Get Attribute
+      operationId: get_attribute
+      parameters:
+      - description: attribute_id
+        in: path
+        name: attribute_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllAttributeModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get Attribute
+      tags:
+      - attribute
+    put:
+      consumes:
+      - application/json
+      description: Update Attribute by ID
+      operationId: update_attribue
+      parameters:
+      - description: attribute_id
+        in: path
+        name: attribute_id
+        required: true
+        type: string
+      - description: attribute
+        in: body
+        name: attribute
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAttributeModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Attribute
+      tags:
+      - attribute
+  /v1/company:
+    get:
+      consumes:
+      - application/json
+      description: Get All Company
+      operationId: get_all_company
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllCompanyModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get All Company
+      tags:
+      - company
+    post:
+      consumes:
+      - application/json
+      description: Create Company
+      operationId: create_company
+      parameters:
+      - description: company
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCompanyModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create Company
+      tags:
+      - company
+  /v1/company/{company_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Company by given ID
+      operationId: delete_company
+      parameters:
+      - description: company_id
+        in: path
+        name: company_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete Company
+      tags:
+      - company
+    get:
+      consumes:
+      - application/json
+      description: Get Company
+      operationId: get_company
+      parameters:
+      - description: company_id
+        in: path
+        name: company_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllCompanyModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get Company
+      tags:
+      - company
+    put:
+      consumes:
+      - application/json
+      description: Update Company by ID
+      operationId: update_company
+      parameters:
+      - description: company_id
+        in: path
+        name: company_id
+        required: true
+        type: string
+      - description: company
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCompanyModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Company
+      tags:
+      - company
+  /v1/ping:
+    get:
+      consumes:
+      - application/json
+      description: this returns "pong" messsage to show service is working
+      operationId: ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: returns "pong" message
+      tags:
+      - config
+  /v1/position:
+    get:
+      consumes:
+      - application/json
+      description: Get All Position
+      operationId: get_all_position
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: profession_id
+        in: query
+        name: profession_id
+        type: string
+      - description: company_id
+        in: query
+        name: company_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/position_service.GetAllPositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get All Position
+      tags:
+      - position
+    post:
+      consumes:
+      - application/json
+      description: Create Position
+      operationId: create_position
+      parameters:
+      - description: position
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/position_service.CreatePositionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create Position
+      tags:
+      - position
+  /v1/position/{position_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Position by given ID
+      operationId: delete_position
+      parameters:
+      - description: position_id
+        in: path
+        name: position_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete Position
+      tags:
+      - position
+    get:
+      consumes:
+      - application/json
+      description: Get Position
+      operationId: get_position
+      parameters:
+      - description: position_id
+        in: path
+        name: position_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/position_service.GetPositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get Position
+      tags:
+      - position
+    put:
+      consumes:
+      - application/json
+      description: Update Position by ID
+      operationId: update_position
+      parameters:
+      - description: position_id
+        in: path
+        name: position_id
+        required: true
+        type: string
+      - description: position
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/position_service.GetPositionResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Position
+      tags:
+      - position
+  /v1/profession:
+    get:
+      consumes:
+      - application/json
+      description: Get All Profession
+      operationId: get-all-profession
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: offset
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GetAllProfessionModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get all profession
+      tags:
+      - profession
+    post:
+      consumes:
+      - application/json
+      description: Create Profession
+      operationId: create-profession
+      parameters:
+      - description: profession
+        in: body
+        name: profession
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateProfessionModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: create profession
+      tags:
+      - profession
+  /v1/profession/{profession_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Profession by given ID
+      operationId: delete_profession
+      parameters:
+      - description: profession_id
+        in: path
+        name: profession_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete Profession
+      tags:
+      - profession
+    get:
+      consumes:
+      - application/json
+      description: Get Profession
+      operationId: get-profession
+      parameters:
+      - description: profession_id
+        in: path
+        name: profession_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.ProfessionModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: get profession
+      tags:
+      - profession
+    put:
+      consumes:
+      - application/json
+      description: Update Profession by ID
+      operationId: update_profession
+      parameters:
+      - description: profession_id
+        in: path
+        name: profession_id
+        required: true
+        type: string
+      - description: profession
+        in: body
+        name: profession
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateProfessionModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.NameModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update Profession
+      tags:
+      - profession
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
