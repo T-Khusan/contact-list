@@ -10,11 +10,11 @@ import (
 type Config struct {
 	Environment string // develop, staging, production
 
-	PositionServiceHost string
-	PositionServicePort int
+	ContactServiceHost string
+	ContactServicePort int
 
-	CompanyServiceHost string
-	CompanyServicePort int
+	UserServiceHost string
+	UserServicePort int
 
 	MinioAccessKeyID string
 	MinioSecretKey   string
@@ -36,11 +36,11 @@ func Load() Config {
 	config.LogLevel = cast.ToString(getOrReturnDefault("LOG_LEVEL", "debug"))
 	config.HttpPort = cast.ToString(getOrReturnDefault("HTTP_PORT", ":8090"))
 
-	config.PositionServiceHost = cast.ToString(getOrReturnDefault("POSITION_SERVICE_HOST", "localhost"))
-	config.PositionServicePort = cast.ToInt(getOrReturnDefault("POSITION_SERVICE_PORT", 5004))
+	config.UserServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "localhost"))
+	config.UserServicePort = cast.ToInt(getOrReturnDefault("USER_SERVICE_PORT", 5004))
 
-	config.CompanyServiceHost = cast.ToString(getOrReturnDefault("POSITION_SERVICE_HOST", "localhost"))
-	config.CompanyServicePort = cast.ToInt(getOrReturnDefault("POSITION_SERVICE_PORT", 5005))
+	config.ContactServiceHost = cast.ToString(getOrReturnDefault("CONTACT_SERVICE_HOST", "localhost"))
+	config.ContactServicePort = cast.ToInt(getOrReturnDefault("CONTACT_SERVICE_PORT", 5000))
 
 	config.MinioEndpoint = cast.ToString(getOrReturnDefault("MINIO_ENDPOINT", "test.cdn.urecruit.udevs.io"))
 	config.MinioAccessKeyID = cast.ToString(getOrReturnDefault("MINIO_ACCESS_KEY_ID", "2R5YabYDYwesXPDPprWc6DpbczCsXL97"))
