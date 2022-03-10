@@ -7,7 +7,7 @@ import "user.proto";
 
 service UserService {
     rpc CreateUser(User) returns (UserId) {}
-    // rpc GetAll(GetAllUserRequest) returns (GetAllUserResponse) {}
+    rpc GetAll(GetAllUserRequest) returns (GetAllUserResponse) {}
     // rpc Get(UserId) returns (User) {}
     // rpc Update(User) returns (UserUpdate) {}
     // rpc Delete(UserId) returns (UserUpdate) {}
