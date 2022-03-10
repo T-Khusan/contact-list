@@ -1,0 +1,31 @@
+syntax="proto3";
+
+package genproto;
+option go_package="genproto/contact_service";
+
+
+message Contact {
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+}
+
+message ContactId {
+    string id = 1;
+}
+
+message GetAllContactRequest {
+    int64 offset = 1;
+    int64 limit = 2;
+    string name = 3;
+}
+
+message GetAllContactResponse {
+    repeated Contact contacts = 1;
+    int32 count = 2;
+}
+
+message ContactUpdate {
+    string name = 1;
+    string phone = 2;
+}
