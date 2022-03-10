@@ -2,33 +2,33 @@ package services
 
 import (
 	"contact_api_gateway/config"
-	"contact_api_gateway/genproto/user_service"
+	"contact_api_gateway/genproto/contact_service"
 	"fmt"
 
 	"google.golang.org/grpc"
 )
 
 type ServiceManager interface {
-	UserService() user_service.UserServiceClient
+	ContactService() contact_service.ContactServiceClient
 }
 
 type grpcClients struct {
-	userService user_service.UserServiceClient
+	contactService contact_service.ContactServiceClient
 }
 
 func NewGrpcClients(conf *config.Config) (ServiceManager, error) {
-	connUserService, err := grpc.Dial(
-		fmt.Sprintf("%s:%d", conf.UserServiceHost, conf.UserServicePort),
+	connContactService, err := grpc.Dial(
+		fmt.Sprintf("%s:%d", conf.ContactServiceHost, conf.ContactServicePort),
 		grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}
 
 	return &grpcClients{
-		userService: user_service.NewUserServiceClient(connUserService),
+		contactService: contact_service.NewContactServiceClient(connContactService),
 	}, nil
 }
 
-func (g *grpcClients) UserService() user_service.UserServiceClient {
-	return g.userService
+func (g *grpcClients) ContactService() contact_service.ContactServiceClient {
+	return g.contactService
 }
