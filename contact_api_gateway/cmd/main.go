@@ -3,17 +3,16 @@ package main
 import (
 	// "fmt"
 
-	"bitbucket.org/udevs/example_api_gateway/api"
-
-	"bitbucket.org/udevs/example_api_gateway/config"
-	"bitbucket.org/udevs/example_api_gateway/pkg/logger"
-	"bitbucket.org/udevs/example_api_gateway/services"
+	"contact_api_gateway/api"
+	"contact_api_gateway/config"
+	"contact_api_gateway/pkg/logger"
+	"contact_api_gateway/services"
 	// "github.com/gomodule/redigo/redis"
 )
 
 func main() {
 	cfg := config.Load()
-	log := logger.New(cfg.LogLevel, "example_api_gateway")
+	log := logger.New(cfg.LogLevel, "contact_api_gateway")
 
 	gprcClients, _ := services.NewGrpcClients(&cfg)
 

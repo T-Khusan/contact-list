@@ -1,8 +1,10 @@
 package v1
 
 import (
-	"bitbucket.org/udevs/example_api_gateway/api/models"
-	"bitbucket.org/udevs/example_api_gateway/pkg/logger"
+	"contact_api_gateway/pkg/logger"
+
+	"contact_api_gateway/api/models"
+
 	"github.com/gin-gonic/gin"
 )
 

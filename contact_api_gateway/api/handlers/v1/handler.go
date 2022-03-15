@@ -1,14 +1,14 @@
 package v1
 
 import (
+	"contact_api_gateway/config"
+	"contact_api_gateway/pkg/logger"
+	"contact_api_gateway/services"
 	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"bitbucket.org/udevs/example_api_gateway/api/models"
-	"bitbucket.org/udevs/example_api_gateway/config"
-	"bitbucket.org/udevs/example_api_gateway/pkg/logger"
-	"bitbucket.org/udevs/example_api_gateway/services"
+	"contact_api_gateway/api/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/jsonpb"
 	"google.golang.org/grpc/codes"

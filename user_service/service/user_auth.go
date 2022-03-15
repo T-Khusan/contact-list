@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"crypto/sha1"
+	"errors"
 	"fmt"
 	"time"
 	"user_service/genproto/user_service"
@@ -21,8 +22,8 @@ type userService struct {
 }
 
 const (
-	salt = "aSWdkh6465a4dEWdyKHJS"
-	timeToken = 12 * time.Hour
+	salt       = "aSWdkh6465a4dEWdyKHJS"
+	timeToken  = 12 * time.Hour
 	signingKey = "asd12aHJGJHG4sad"
 )
 
@@ -69,6 +70,28 @@ func (s *userService) GenerateToken(username, password string) (string, error) {
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 
 	return token.SignedString([]byte(signingKey))
+}
+
+// ParseToken token parse and returen user id
+func (s *userService) ParseToken(token string) (string, error) {
+	tk, err := jwt.ParseWithClaims(token, &tokenClaims{}, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signing method")
+		}
+
+		return []byte(signingKey), nil
+	})
+
+	if err != nil {
+		return "", nil
+	}
+
+	cl, ok := tk.Claims.(*tokenClaims)
+	if !ok {
+		return 0, errors.New("token claims are not of type *tokenClaims")
+	}
+
+	return cl.UserID, nil
 }
 
 func hashPassword(pass string) string {

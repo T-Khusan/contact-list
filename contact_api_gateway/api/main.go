@@ -1,9 +1,10 @@
 package api
 
 import (
-	"bitbucket.org/udevs/example_api_gateway/config"
-	"bitbucket.org/udevs/example_api_gateway/pkg/logger"
-	"bitbucket.org/udevs/example_api_gateway/services"
+	"contact_api_gateway/config"
+	"contact_api_gateway/pkg/logger"
+	"contact_api_gateway/services"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
@@ -19,8 +20,8 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "bitbucket.org/udevs/example_api_gateway/api/docs"
-	v1 "bitbucket.org/udevs/example_api_gateway/api/handlers/v1"
+	_ "contact_api_gateway/api/docs"
+	v1 "contact_api_gateway/api/handlers/v1"
 )
 
 type RouterOptions struct {
@@ -61,7 +62,6 @@ func New(opt *RouterOptions) *gin.Engine {
 	// apiV1.GET("/profession/:profession_id", handlerV1.GetProfession)
 	// apiV1.PUT("/profession/:profession_id", handlerV1.UpdateProfession)
 	// apiV1.DELETE("/profession/:profession_id", handlerV1.DeleteProfession)
-
 
 	// swagger
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition
