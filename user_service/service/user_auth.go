@@ -88,7 +88,7 @@ func (s *userService) ParseToken(token string) (string, error) {
 
 	cl, ok := tk.Claims.(*tokenClaims)
 	if !ok {
-		return 0, errors.New("token claims are not of type *tokenClaims")
+		return "", errors.New("token claims are not of type *tokenClaims")
 	}
 
 	return cl.UserID, nil

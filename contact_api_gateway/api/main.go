@@ -56,8 +56,8 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1 := router.Group("/v1")
 	apiV1.GET("/ping", handlerV1.Ping)
 
-	// profession
-	// apiV1.POST("/profession", handlerV1.CreateProfession)
+	// contact
+	apiV1.POST("/contact", handlerV1.CreateContact)
 	// apiV1.GET("/profession", handlerV1.GetAllProfessions)
 	// apiV1.GET("/profession/:profession_id", handlerV1.GetProfession)
 	// apiV1.PUT("/profession/:profession_id", handlerV1.UpdateProfession)
