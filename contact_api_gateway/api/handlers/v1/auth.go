@@ -2,9 +2,10 @@ package v1
 
 import (
 	"contact_api_gateway/api/models"
+	"contact_api_gateway/genproto/user_service"
+	"context"
 	"net/http"
 
-	// "github.com/Mirobidjon/contact-list"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,37 +17,40 @@ func (h *handlerV1) signUp(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.ContactService().CreateUser(user)
-	if err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
+	id, err := h.services.UserService().CreateUser(
+		context.Background(),
+		&user_service.User{
+			Id:       user.ID,
+			Name:     user.Name,
+			Lastname: user.Lastname,
+			Password: user.Password,
+		},
+	)
+	if !handleError(h.log, c, err, "error while creating user") {
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
+	h.handleSuccessResponse(c, http.StatusOK, "ok", id)
 }
 
-type signinInput struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-func (h *Handler) signIn(c *gin.Context) {
-	var user signinInput
+func (h *handlerV1) signIn(c *gin.Context) {
+	var user models.SigninInput
 
 	if err := c.BindJSON(&user); err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
+		h.handleErrorResponse(c, 400, "error while binging json", err)
 		return
 	}
 
-	token, err := h.service.GenerateToken(user.Username, user.Password)
-	if err != nil {
-		newErrorResponce(c, http.StatusBadRequest, err.Error())
+	token, err := h.services.UserService().GenerateToken(
+		context.Background(),
+		&user_service.GetAllUserRequest{
+			Password: user.Password,
+			Name:     user.Name,
+		},
+	)
+	if !handleError(h.log, c, err, "error while signing user") {
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"token": token,
-	})
+	h.handleSuccessResponse(c, http.StatusOK, "ok", token)
 }
