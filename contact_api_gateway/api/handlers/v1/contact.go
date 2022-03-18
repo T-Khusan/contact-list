@@ -12,6 +12,7 @@ import (
 )
 
 // Create Contact godoc
+// @Security ApiKeyAuth
 // @ID create-contact
 // @Router /v1/contact [POST]
 // @Summary create contact

@@ -17,6 +17,7 @@ import (
 )
 
 type userService struct {
+	user_service.UnimplementedUserServiceServer
 	logger  logger.Logger
 	storage storage.StorageI
 }
@@ -53,10 +54,10 @@ func (s *userService) CreateUser(ctx context.Context, req *user_service.User) (*
 }
 
 // GenerateToken ...
-func (s *userService) GenerateToken(username, password string) (string, error) {
-	user, err := s.storage.User().GetUser(username, hashPassword(password))
+func (s *userService) GenerateToken(ctx context.Context, req *user_service.GetAllUserRequest) (*user_service.GetTokenResponse, error) {
+	user, err := s.storage.User().GetUser(req.Name, hashPassword(req.Password))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	tk := tokenClaims{
@@ -68,13 +69,18 @@ func (s *userService) GenerateToken(username, password string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
-
-	return token.SignedString([]byte(signingKey))
+	tokenStr, err := token.SignedString([]byte(signingKey))
+	if err != nil {
+		return nil, err
+	}
+	return &user_service.GetTokenResponse{
+		Token: tokenStr,
+	}, nil
 }
 
-// ParseToken token parse and returen user id
-func (s *userService) ParseToken(token string) (string, error) {
-	tk, err := jwt.ParseWithClaims(token, &tokenClaims{}, func(t *jwt.Token) (interface{}, error) {
+// ParseToken token parse and return user id
+func (s *userService) ParseToken(ctx context.Context, req *user_service.GetTokenResponse) (*user_service.GetTokenResponse, error) {
+	tk, err := jwt.ParseWithClaims(req.Token, &tokenClaims{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
 		}
@@ -83,15 +89,17 @@ func (s *userService) ParseToken(token string) (string, error) {
 	})
 
 	if err != nil {
-		return "", nil
+		return nil, helper.HandleError(s.logger, err, "error while parsing token", req, codes.Internal)
 	}
 
 	cl, ok := tk.Claims.(*tokenClaims)
 	if !ok {
-		return "", errors.New("token claims are not of type *tokenClaims")
+		return nil, helper.HandleError(s.logger, err, "token claims are not of type *tokenClaims", req, codes.Internal)
 	}
 
-	return cl.UserID, nil
+	return &user_service.GetTokenResponse{
+		Token: cl.UserID,
+	}, nil
 }
 
 func hashPassword(pass string) string {

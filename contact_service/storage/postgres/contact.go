@@ -27,10 +27,11 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 	}
 
 	query := `INSERT INTO contact (
+				id,
 				name,
 				phone
 			) 
-			VALUES ($1, $2) RETURNING id`
+			VALUES ($1, $2, $3) RETURNING id`
 
 	if err := tx.QueryRowContext(ctx, query, req.Name, req.Phone).Scan(&id); err != nil {
 		if err := tx.Rollback(); err != nil {

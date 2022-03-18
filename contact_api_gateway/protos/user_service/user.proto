@@ -20,7 +20,10 @@ message GetAllUserRequest {
     string name = 3;
 }
 
-message GetAllUserResponse {
-    repeated User users = 1;
-    int32 count = 2;
+message GetTokenResponse {
+    string token = 1;
 }
+// message GetAllUserResponse {
+//     repeated User users = 1;
+//     int32 count = 2;
+// }

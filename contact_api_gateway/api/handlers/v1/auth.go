@@ -9,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+
 func (h *handlerV1) signUp(c *gin.Context) {
 	var user models.UserModel
 

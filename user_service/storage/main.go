@@ -19,7 +19,7 @@ type storagePg struct {
 func NewStoragePg(db *sqlx.DB) StorageI {
 	return &storagePg{
 		db:      db,
-		user: postgres.NewContactRepo(db),
+		user: postgres.NewUserRepo(db),
 	}
 }
 
