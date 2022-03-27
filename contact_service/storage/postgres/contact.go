@@ -4,7 +4,8 @@ import (
 	"contact_service/genproto/contact_service"
 	"contact_service/storage/repo"
 	"context"
-	"database/sql"
+	"fmt"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -27,13 +28,13 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 	}
 
 	query := `INSERT INTO contact (
-				id,
 				name,
-				phone
+				phone,
+				user_id
 			) 
 			VALUES ($1, $2, $3) RETURNING id`
 
-	if err := tx.QueryRowContext(ctx, query, req.Name, req.Phone).Scan(&id); err != nil {
+	if err := tx.QueryRowContext(ctx, query, req.Name, req.Phone, req.UserId).Scan(&id); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return "", err
 		}
@@ -42,76 +43,33 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 	return id, tx.Commit()
 }
 
-func (r *contactRepo) GetAll(req *contact_service.GetAllContactRequest) (*contact_service.GetAllContactResponse, error) {
-	var (
-		filter   string
-		args     = make(map[string]interface{})
-		count    int32
-		contacts []*contact_service.Contact
-	)
+func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.Contact, error) {
+	var contacts []*contact_service.Contact
 
-	if req.Name != "" {
-		filter += " AND name ilike '%' || :name || '%' "
-		args["name"] = req.Name
-	}
+	query := "SELECT id, name, phone, user_id FROM contact WHERE user_id=$1"
 
-	countQuery := `SELECT count(1) FROM contact WHERE true ` + filter
-	rows, err := r.db.NamedQuery(countQuery, args)
-	if err != nil {
-		return nil, err
-	}
+	err := r.db.Select(&contacts, query, user_id)
 
-	for rows.Next() {
-		err = rows.Scan(&count)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	query := `SELECT
-					id,
-					name,
-					phone
-				FROM contact WHERE true ` + filter
-
-	rows, err = r.db.NamedQuery(query, args)
-	if err != nil {
-		return nil, err
-	}
-
-	for rows.Next() {
-		var contact contact_service.Contact
-
-		err = rows.Scan(
-			&contact.Id,
-			&contact.Name,
-			&contact.Phone,
-		)
-
-		if err != nil {
-			return nil, err
-		}
-
-		contacts = append(contacts, &contact)
-	}
-
-	return &contact_service.GetAllContactResponse{
-		Contacts: contacts,
-		Count:    count,
+	return &contact_service.Contact{
+		Id:     req.Id,
+		Name:   req.Name,
+		Phone:  req.Phone,
+		UserId: req.UserId,
 	}, nil
 
 }
 
-func (r *contactRepo) Get(id string) (*contact_service.Contact, error) {
+func (r *contactRepo) Get(userID, contactID string) (*contact_service.Contact, error) {
 	var contact contact_service.Contact
 
-	query := `SELECT id, name, phone FROM contact WHERE id = $1`
+	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
 
-	row := r.db.QueryRow(query, id)
+	row := r.db.QueryRow(query, userID, contactID)
 	err := row.Scan(
-		&contact.Id,
+		&contact.UserId,
 		&contact.Name,
 		&contact.Phone,
+		&contact.Id,
 	)
 
 	if err != nil {
@@ -122,42 +80,39 @@ func (r *contactRepo) Get(id string) (*contact_service.Contact, error) {
 }
 
 func (r *contactRepo) Update(req *contact_service.Contact) (string, error) {
-	var (
-		err error
-		tx  *sql.Tx
-	)
+	setValue := make([]string, 0)
+	args := make([]interface{}, 0)
+	argID := 1
 
-	tx, err = r.db.Begin()
-
-	defer func() {
-		if err != nil {
-			tx.Rollback()
-		} else {
-			tx.Commit()
-		}
-	}()
-	if err != nil {
-		return "", err
+	if req.Name != "" {
+		setValue = append(setValue, fmt.Sprintf("name=$%d", argID))
+		args = append(args, req.Name)
+		argID++
 	}
 
-	query := `
-		UPDATE contact
-		SET name = $1, phone = $2
-		WHERE id = $3
-	`
-
-	_, err = tx.Exec(query, req.Name, req.Phone, req.Id)
-	if err != nil {
-		return "", err
+	if req.Phone != "" {
+		setValue = append(setValue, fmt.Sprintf("phone=$%d", argID))
+		args = append(args, req.Phone)
+		argID++
 	}
 
-	return "Updated successfuly", nil
+	argString := strings.Join(setValue, ", ")
+
+	query := fmt.Sprintf("UPDATE contact SET %s WHERE user_id=$%d AND id=$%d", argString, argID, argID+1)
+
+	args = append(args, req.UserId, req.Id)
+
+	_, err := r.db.Exec(query, args...)
+
+	return "Updated successfuly", err
 }
 
-func (r *contactRepo) Delete(id string) (string, error) {
-	query := `DELETE FROM contact WHERE id = $1`
+func (r *contactRepo) Delete(userID, contactID string) (string, error) {
+	query := "DELETE FROM contact WHERE user_id=$1 AND id=$2"
 
-	_, err := r.db.Exec(query, id)
+	_, err := r.db.Exec(query, query, userID, contactID)
+
+
 	if err != nil {
 		return "", err
 	}

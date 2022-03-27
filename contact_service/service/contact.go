@@ -37,7 +37,7 @@ func (s *contactService) Create(ctx context.Context, req *contact_service.Contac
 	}, nil
 }
 
-func (s *contactService) GetAll(ctx context.Context, req *contact_service.GetAllContactRequest) (*contact_service.GetAllContactResponse, error) {
+func (s *contactService) GetAll(ctx context.Context, req *contact_service.UserId) (*contact_service.Contact, error) {
 	resp, err := s.storage.Contact().GetAll(req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while getting all contacts", req, codes.Internal)

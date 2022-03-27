@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"contact_api_gateway/api/models"
+	"contact_api_gateway/genproto/user_service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +27,13 @@ func (h *handlerV1) userIdentify(c *gin.Context) {
 		return
 	}
 
-	userID, err := h.services.UserService().ParseToken(c context.Context, headerParts[1]) //h.service.Authorization
+	userID, err := h.services.UserService().ParseToken(
+		context.Background(),
+		&user_service.GetTokenResponse{
+			Token: headerParts[1],
+		},
+	)
+
 	if err != nil {
 		models.NewErrorResponce(c, http.StatusUnauthorized, err.Error())
 		return

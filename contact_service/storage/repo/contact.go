@@ -7,8 +7,8 @@ import (
 
 type ContactRepoI interface {
 	Create(ctx context.Context, req *contact_service.Contact) (string, error)
-	GetAll(req *contact_service.GetAllContactRequest) (*contact_service.GetAllContactResponse, error)
-	Get(id string) (*contact_service.Contact, error)
+	GetAll(req *contact_service.UserId) (*contact_service.Contact, error)
+	Get(req *contact_service.ContactId) (*contact_service.Contact, error)
 	Update(req *contact_service.Contact) (string, error)
-	Delete(id string) (string, error)
+	Delete(req *contact_service.ContactId) (string, error)
 }

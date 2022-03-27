@@ -40,7 +40,7 @@ func Load() Config {
 	config.UserServicePort = cast.ToInt(getOrReturnDefault("USER_SERVICE_PORT", 5004))
 
 	config.ContactServiceHost = cast.ToString(getOrReturnDefault("CONTACT_SERVICE_HOST", "localhost"))
-	config.ContactServicePort = cast.ToInt(getOrReturnDefault("CONTACT_SERVICE_PORT", 5000))
+	config.ContactServicePort = cast.ToInt(getOrReturnDefault("CONTACT_SERVICE_PORT", 5002))
 
 	config.MinioEndpoint = cast.ToString(getOrReturnDefault("MINIO_ENDPOINT", "test.cdn.urecruit.udevs.io"))
 	config.MinioAccessKeyID = cast.ToString(getOrReturnDefault("MINIO_ACCESS_KEY_ID", "2R5YabYDYwesXPDPprWc6DpbczCsXL97"))

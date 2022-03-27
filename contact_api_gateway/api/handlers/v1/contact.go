@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"strconv"
 
 	"net/http"
 
@@ -56,7 +57,20 @@ func (h *handlerV1) CreateContact(c *gin.Context) {
 
 }
 
-/*
+// Create Contact godoc
+// @Security ApiKeyAuth
+// @ID create-contact
+// @Router /v1/contact [POST]
+// @Summary create contact
+// @Description Create Contact
+// @Tags contact
+// @Accept json
+// @Produce json
+// @Param profession body models.CreateContactModel true "contact"
+// @Success 200 {object} models.ResponseModel{data=string} "desc"
+// @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
+// @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
+// @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
 func (h *handlerV1) GetContact(c *gin.Context) {
 	userID, err := getUserID(c)
 	if err != nil {
@@ -70,7 +84,12 @@ func (h *handlerV1) GetContact(c *gin.Context) {
 		return
 	}
 
-	mycontact, err := h.services.ContactService().GetByID(userID, id)
+	mycontact, err := h.services.ContactService().Get(
+		context.Background(),
+		&contact_service.ContactId{
+			Id:
+		}
+		userID, id)
 	output := contact.DefaultContact{
 		Name:  mycontact.Name,
 		Phone: mycontact.Phone,
@@ -78,6 +97,7 @@ func (h *handlerV1) GetContact(c *gin.Context) {
 	c.JSON(http.StatusOK, output)
 }
 
+/*
 func (h *handlerV1) GetAllContact(c *gin.Context) {
 	userID, err := getUserID(c)
 	if err != nil {
