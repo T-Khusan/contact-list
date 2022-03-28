@@ -34,11 +34,19 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 			) 
 			VALUES ($1, $2, $3) RETURNING id`
 
-	if err := tx.QueryRowContext(ctx, query, req.Name, req.Phone, req.UserId).Scan(&id); err != nil {
-		if err := tx.Rollback(); err != nil {
-			return "", err
-		}
+	row := tx.QueryRow(query, req.Name, req.Phone, req.UserId)
+
+	err = row.Scan(&id)
+	if err != nil {
+		tx.Rollback()
+		return "", err
 	}
+
+	// if err := tx.QueryRowContext(ctx, query, req.Name, req.Phone, req.UserId).Scan(&id); err != nil {
+	// 	if err := tx.Rollback(); err != nil {
+	// 		return "", err
+	// 	}
+	// }
 
 	return id, tx.Commit()
 }
@@ -50,9 +58,13 @@ func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.GetA
 
 	err := r.db.Select(&contacts, query, req.UserId)
 
+	if err != nil {
+		return nil, err
+	}
+
 	return &contact_service.GetAllContactResponse{
 		Contacts: contacts,
-	}, err
+	}, nil
 
 }
 
@@ -61,13 +73,15 @@ func (r *contactRepo) Get(req *contact_service.ContactUserId) (*contact_service.
 
 	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
 
-	row := r.db.QueryRow(query, req.UserId, req.Id)
-	err := row.Scan(
-		&contact.UserId,
-		&contact.Name,
-		&contact.Phone,
-		&contact.Id,
-	)
+	// row := r.db.QueryRow(query, req.UserId, req.Id)
+	// err := row.Scan(
+	// 	&contact.UserId,
+	// 	&contact.Name,
+	// 	&contact.Phone,
+	// 	&contact.Id,
+	// )
+
+	err := r.db.Get(&contact, query, req.UserId, req.Id)
 
 	if err != nil {
 		return nil, err
@@ -102,7 +116,7 @@ func (r *contactRepo) Update(req *contact_service.Contact) (*contact_service.Con
 	_, err := r.db.Exec(query, args...)
 
 	return &contact_service.ContactUpdate{
-		Name: req.Name,
+		Name:  req.Name,
 		Phone: req.Phone,
 	}, err
 }
@@ -110,7 +124,7 @@ func (r *contactRepo) Update(req *contact_service.Contact) (*contact_service.Con
 func (r *contactRepo) Delete(req *contact_service.ContactUserId) (string, error) {
 	query := "DELETE FROM contact WHERE user_id=$1 AND id=$2"
 
-	_, err := r.db.Exec(query, query, req.UserId, req.Id)
+	_, err := r.db.Exec(query, req.UserId, req.Id)
 
 	if err != nil {
 		return "", err
