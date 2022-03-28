@@ -53,17 +53,22 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 
 func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.GetAllContactResponse, error) {
 	var (
-		args     = make(map[string]interface{})
+		// args     = make(map[string]interface{})
 		contacts []*contact_service.Contact
 	)
 
 	query := "SELECT id, name, phone, user_id FROM contact WHERE user_id=$1"
 
+	// args["userId"] = req.UserId
 	// err := r.db.Select(&contacts, query, req.UserId)
+	// rows, err := r.db.NamedQuery(query, args)
 
-	args["userId"] = req.UserId
+	rows, err := r.db.Query(
+		query,
+		req.UserId,
+	)
+	defer rows.Close()
 
-	rows, err := r.db.NamedQuery(query, args)
 	if err != nil {
 		return nil, err
 	}
