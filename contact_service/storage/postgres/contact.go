@@ -43,28 +43,25 @@ func (r *contactRepo) Create(ctx context.Context, req *contact_service.Contact) 
 	return id, tx.Commit()
 }
 
-func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.Contact, error) {
+func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.GetAllContactResponse, error) {
 	var contacts []*contact_service.Contact
 
 	query := "SELECT id, name, phone, user_id FROM contact WHERE user_id=$1"
 
-	err := r.db.Select(&contacts, query, user_id)
+	err := r.db.Select(&contacts, query, req.UserId)
 
-	return &contact_service.Contact{
-		Id:     req.Id,
-		Name:   req.Name,
-		Phone:  req.Phone,
-		UserId: req.UserId,
-	}, nil
+	return &contact_service.GetAllContactResponse{
+		Contacts: contacts,
+	}, err
 
 }
 
-func (r *contactRepo) Get(userID, contactID string) (*contact_service.Contact, error) {
+func (r *contactRepo) Get(req *contact_service.ContactId) (*contact_service.Contact, error) {
 	var contact contact_service.Contact
 
 	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
 
-	row := r.db.QueryRow(query, userID, contactID)
+	row := r.db.QueryRow(query, req.UserId, req.Id)
 	err := row.Scan(
 		&contact.UserId,
 		&contact.Name,
@@ -79,7 +76,7 @@ func (r *contactRepo) Get(userID, contactID string) (*contact_service.Contact, e
 	return &contact, nil
 }
 
-func (r *contactRepo) Update(req *contact_service.Contact) (string, error) {
+func (r *contactRepo) Update(req *contact_service.Contact) (*contact_service.ContactUpdate, error) {
 	setValue := make([]string, 0)
 	args := make([]interface{}, 0)
 	argID := 1
@@ -104,14 +101,16 @@ func (r *contactRepo) Update(req *contact_service.Contact) (string, error) {
 
 	_, err := r.db.Exec(query, args...)
 
-	return "Updated successfuly", err
+	return &contact_service.ContactUpdate{
+		Name: req.Name,
+		Phone: req.Phone,
+	}, err
 }
 
-func (r *contactRepo) Delete(userID, contactID string) (string, error) {
+func (r *contactRepo) Delete(req *contact_service.ContactId) (string, error) {
 	query := "DELETE FROM contact WHERE user_id=$1 AND id=$2"
 
-	_, err := r.db.Exec(query, query, userID, contactID)
-
+	_, err := r.db.Exec(query, query, req.UserId, req.Id)
 
 	if err != nil {
 		return "", err

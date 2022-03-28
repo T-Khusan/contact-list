@@ -37,7 +37,7 @@ func (s *contactService) Create(ctx context.Context, req *contact_service.Contac
 	}, nil
 }
 
-func (s *contactService) GetAll(ctx context.Context, req *contact_service.UserId) (*contact_service.Contact, error) {
+func (s *contactService) GetAll(ctx context.Context, req *contact_service.UserId) (*contact_service.GetAllContactResponse, error) {
 	resp, err := s.storage.Contact().GetAll(req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while getting all contacts", req, codes.Internal)
@@ -47,7 +47,7 @@ func (s *contactService) GetAll(ctx context.Context, req *contact_service.UserId
 }
 
 func (s *contactService) Get(ctx context.Context, req *contact_service.ContactId) (*contact_service.Contact, error) {
-	contact, err := s.storage.Contact().Get(req.Id)
+	contact, err := s.storage.Contact().Get(req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while getting contact", req, codes.Internal)
 	}
@@ -62,19 +62,19 @@ func (s *contactService) Update(ctx context.Context, req *contact_service.Contac
 	}
 
 	return &contact_service.ContactUpdate{
-		Name: resp,
-		Phone: resp,
+		Name:  resp.Name,
+		Phone: resp.Phone,
 	}, nil
 }
 
 func (s *contactService) Delete(ctx context.Context, req *contact_service.ContactId) (*contact_service.ContactUpdate, error) {
-	resp, err := s.storage.Contact().Delete(req.Id)
+	resp, err := s.storage.Contact().Delete(req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while deleting contact", req, codes.Internal)
 	}
 
 	return &contact_service.ContactUpdate{
-		Name: resp,
+		Name:  resp,
 		Phone: resp,
 	}, nil
 }

@@ -11,6 +11,10 @@ message Contact {
     string user_id = 4;
 }
 
+message GetAllContactResponse {
+    repeated Contact contacts = 1;
+}
+
 message ContactId {
     string id = 1;
     string user_id = 2;
