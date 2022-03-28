@@ -15,12 +15,12 @@ message GetAllContactResponse {
     repeated Contact contacts = 1;
 }
 
-message ContactId {
+message ContactUserId {
     string id = 1;
     string user_id = 2;
 }
 
-message CId {
+message ContactId {
     string id = 1;
 }
 
@@ -31,4 +31,8 @@ message UserId {
 message ContactUpdate {
     string name = 1;
     string phone = 2;
+}
+
+message ContactDelete {
+    string name = 1;
 }

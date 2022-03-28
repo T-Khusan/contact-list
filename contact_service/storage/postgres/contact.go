@@ -56,7 +56,7 @@ func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.GetA
 
 }
 
-func (r *contactRepo) Get(req *contact_service.ContactId) (*contact_service.Contact, error) {
+func (r *contactRepo) Get(req *contact_service.ContactUserId) (*contact_service.Contact, error) {
 	var contact contact_service.Contact
 
 	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
@@ -107,7 +107,7 @@ func (r *contactRepo) Update(req *contact_service.Contact) (*contact_service.Con
 	}, err
 }
 
-func (r *contactRepo) Delete(req *contact_service.ContactId) (string, error) {
+func (r *contactRepo) Delete(req *contact_service.ContactUserId) (string, error) {
 	query := "DELETE FROM contact WHERE user_id=$1 AND id=$2"
 
 	_, err := r.db.Exec(query, query, req.UserId, req.Id)
