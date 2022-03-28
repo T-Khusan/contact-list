@@ -8,24 +8,31 @@ message Contact {
     string id = 1;
     string name = 2;
     string phone = 3;
+    string user_id = 4;
+}
+
+message GetAllContactResponse {
+    repeated Contact contacts = 1;
+}
+
+message ContactUserId {
+    string id = 1;
+    string user_id = 2;
 }
 
 message ContactId {
     string id = 1;
 }
 
-message GetAllContactRequest {
-    int64 offset = 1;
-    int64 limit = 2;
-    string name = 3;
-}
-
-message GetAllContactResponse {
-    repeated Contact contacts = 1;
-    int32 count = 2;
+message UserId {
+    string user_id = 1;
 }
 
 message ContactUpdate {
     string name = 1;
     string phone = 2;
+}
+
+message ContactDelete {
+    string name = 1;
 }

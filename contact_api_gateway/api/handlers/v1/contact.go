@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"strconv"
 
 	"net/http"
 
@@ -21,7 +20,7 @@ import (
 // @Tags contact
 // @Accept json
 // @Produce json
-// @Param profession body models.CreateContactModel true "contact"
+// @Param contact body models.CreateContactModel true "contact"
 // @Success 200 {object} models.ResponseModel{data=string} "desc"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
@@ -57,16 +56,16 @@ func (h *handlerV1) CreateContact(c *gin.Context) {
 
 }
 
-// Create Contact godoc
+// Get Contact godoc
 // @Security ApiKeyAuth
-// @ID create-contact
-// @Router /v1/contact [POST]
-// @Summary create contact
-// @Description Create Contact
+// @ID get-contact
+// @Router /v1/contact/{contact_id} [GET]
+// @Summary get contact
+// @Description Get Contact
 // @Tags contact
 // @Accept json
 // @Produce json
-// @Param profession body models.CreateContactModel true "contact"
+// @Param contact_id path string true "contact_id"
 // @Success 200 {object} models.ResponseModel{data=string} "desc"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
@@ -77,25 +76,30 @@ func (h *handlerV1) GetContact(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil {
-		models.NewErrorResponce(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
+	var id string
+	id = c.Param("id")
 
 	mycontact, err := h.services.ContactService().Get(
 		context.Background(),
-		&contact_service.ContactId{
-			Id:
-		}
-		userID, id)
-	output := contact.DefaultContact{
-		Name:  mycontact.Name,
-		Phone: mycontact.Phone,
+		&contact_service.ContactUserId{
+			Id:     id,
+			UserId: userID,
+		},
+	)
+
+	if !handleError(h.log, c, err, "error while getting contact") {
+		return
+	}
+
+	output := &contact_service.Contact{
+		Id:     id,
+		Name:   mycontact.Name,
+		Phone:  mycontact.Phone,
+		UserId: userID,
 	}
 	c.JSON(http.StatusOK, output)
 }
+
 
 /*
 func (h *handlerV1) GetAllContact(c *gin.Context) {

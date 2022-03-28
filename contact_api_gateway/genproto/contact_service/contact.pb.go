@@ -25,9 +25,10 @@ type Contact struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name  string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Phone string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Id     string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name   string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Phone  string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	UserId string `protobuf:"bytes,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 }
 
 func (x *Contact) Reset() {
@@ -83,112 +84,9 @@ func (x *Contact) GetPhone() string {
 	return ""
 }
 
-type ContactId struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (x *ContactId) Reset() {
-	*x = ContactId{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_contact_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ContactId) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ContactId) ProtoMessage() {}
-
-func (x *ContactId) ProtoReflect() protoreflect.Message {
-	mi := &file_contact_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ContactId.ProtoReflect.Descriptor instead.
-func (*ContactId) Descriptor() ([]byte, []int) {
-	return file_contact_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *ContactId) GetId() string {
+func (x *Contact) GetUserId() string {
 	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type GetAllContactRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Offset int64  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"`
-	Limit  int64  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
-	Name   string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-}
-
-func (x *GetAllContactRequest) Reset() {
-	*x = GetAllContactRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_contact_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetAllContactRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetAllContactRequest) ProtoMessage() {}
-
-func (x *GetAllContactRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_contact_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetAllContactRequest.ProtoReflect.Descriptor instead.
-func (*GetAllContactRequest) Descriptor() ([]byte, []int) {
-	return file_contact_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *GetAllContactRequest) GetOffset() int64 {
-	if x != nil {
-		return x.Offset
-	}
-	return 0
-}
-
-func (x *GetAllContactRequest) GetLimit() int64 {
-	if x != nil {
-		return x.Limit
-	}
-	return 0
-}
-
-func (x *GetAllContactRequest) GetName() string {
-	if x != nil {
-		return x.Name
+		return x.UserId
 	}
 	return ""
 }
@@ -199,13 +97,12 @@ type GetAllContactResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Contacts []*Contact `protobuf:"bytes,1,rep,name=contacts,proto3" json:"contacts,omitempty"`
-	Count    int32      `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *GetAllContactResponse) Reset() {
 	*x = GetAllContactResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_contact_proto_msgTypes[3]
+		mi := &file_contact_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -218,7 +115,7 @@ func (x *GetAllContactResponse) String() string {
 func (*GetAllContactResponse) ProtoMessage() {}
 
 func (x *GetAllContactResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_contact_proto_msgTypes[3]
+	mi := &file_contact_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -231,7 +128,7 @@ func (x *GetAllContactResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllContactResponse.ProtoReflect.Descriptor instead.
 func (*GetAllContactResponse) Descriptor() ([]byte, []int) {
-	return file_contact_proto_rawDescGZIP(), []int{3}
+	return file_contact_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetAllContactResponse) GetContacts() []*Contact {
@@ -241,11 +138,153 @@ func (x *GetAllContactResponse) GetContacts() []*Contact {
 	return nil
 }
 
-func (x *GetAllContactResponse) GetCount() int32 {
-	if x != nil {
-		return x.Count
+type ContactUserId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId string `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+}
+
+func (x *ContactUserId) Reset() {
+	*x = ContactUserId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_contact_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
 	}
-	return 0
+}
+
+func (x *ContactUserId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContactUserId) ProtoMessage() {}
+
+func (x *ContactUserId) ProtoReflect() protoreflect.Message {
+	mi := &file_contact_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContactUserId.ProtoReflect.Descriptor instead.
+func (*ContactUserId) Descriptor() ([]byte, []int) {
+	return file_contact_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ContactUserId) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ContactUserId) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type ContactId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *ContactId) Reset() {
+	*x = ContactId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_contact_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContactId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContactId) ProtoMessage() {}
+
+func (x *ContactId) ProtoReflect() protoreflect.Message {
+	mi := &file_contact_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContactId.ProtoReflect.Descriptor instead.
+func (*ContactId) Descriptor() ([]byte, []int) {
+	return file_contact_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ContactId) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type UserId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+}
+
+func (x *UserId) Reset() {
+	*x = UserId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_contact_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserId) ProtoMessage() {}
+
+func (x *UserId) ProtoReflect() protoreflect.Message {
+	mi := &file_contact_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserId.ProtoReflect.Descriptor instead.
+func (*UserId) Descriptor() ([]byte, []int) {
+	return file_contact_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UserId) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
 }
 
 type ContactUpdate struct {
@@ -260,7 +299,7 @@ type ContactUpdate struct {
 func (x *ContactUpdate) Reset() {
 	*x = ContactUpdate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_contact_proto_msgTypes[4]
+		mi := &file_contact_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -273,7 +312,7 @@ func (x *ContactUpdate) String() string {
 func (*ContactUpdate) ProtoMessage() {}
 
 func (x *ContactUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_contact_proto_msgTypes[4]
+	mi := &file_contact_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -286,7 +325,7 @@ func (x *ContactUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContactUpdate.ProtoReflect.Descriptor instead.
 func (*ContactUpdate) Descriptor() ([]byte, []int) {
-	return file_contact_proto_rawDescGZIP(), []int{4}
+	return file_contact_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ContactUpdate) GetName() string {
@@ -303,35 +342,84 @@ func (x *ContactUpdate) GetPhone() string {
 	return ""
 }
 
+type ContactDelete struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *ContactDelete) Reset() {
+	*x = ContactDelete{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_contact_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContactDelete) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContactDelete) ProtoMessage() {}
+
+func (x *ContactDelete) ProtoReflect() protoreflect.Message {
+	mi := &file_contact_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContactDelete.ProtoReflect.Descriptor instead.
+func (*ContactDelete) Descriptor() ([]byte, []int) {
+	return file_contact_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ContactDelete) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_contact_proto protoreflect.FileDescriptor
 
 var file_contact_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x08, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x43, 0x0a, 0x07, 0x43, 0x6f, 0x6e,
+	0x08, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x5c, 0x0a, 0x07, 0x43, 0x6f, 0x6e,
 	0x74, 0x61, 0x63, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e,
-	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x22, 0x1b,
-	0x0a, 0x09, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x58, 0x0a, 0x14, 0x47,
-	0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x03, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c,
-	0x69, 0x6d, 0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69,
-	0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x5c, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x43,
-	0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2d,
-	0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x11, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x6e, 0x74,
-	0x61, 0x63, 0x74, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x12, 0x14, 0x0a,
-	0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x63, 0x6f,
-	0x75, 0x6e, 0x74, 0x22, 0x39, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x42, 0x1a,
-	0x5a, 0x18, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61,
-	0x63, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x17,
+	0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x46, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x41, 0x6c,
+	0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x2d, 0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x11, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f,
+	0x6e, 0x74, 0x61, 0x63, 0x74, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x22,
+	0x38, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x1b, 0x0a, 0x09, 0x43, 0x6f, 0x6e,
+	0x74, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x21, 0x0a, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x39, 0x0a, 0x0d, 0x43, 0x6f, 0x6e,
+	0x74, 0x61, 0x63, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70,
+	0x68, 0x6f, 0x6e, 0x65, 0x22, 0x23, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x42, 0x1a, 0x5a, 0x18, 0x67, 0x65, 0x6e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x5f, 0x73, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -346,13 +434,15 @@ func file_contact_proto_rawDescGZIP() []byte {
 	return file_contact_proto_rawDescData
 }
 
-var file_contact_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_contact_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_contact_proto_goTypes = []interface{}{
 	(*Contact)(nil),               // 0: genproto.Contact
-	(*ContactId)(nil),             // 1: genproto.ContactId
-	(*GetAllContactRequest)(nil),  // 2: genproto.GetAllContactRequest
-	(*GetAllContactResponse)(nil), // 3: genproto.GetAllContactResponse
-	(*ContactUpdate)(nil),         // 4: genproto.ContactUpdate
+	(*GetAllContactResponse)(nil), // 1: genproto.GetAllContactResponse
+	(*ContactUserId)(nil),         // 2: genproto.ContactUserId
+	(*ContactId)(nil),             // 3: genproto.ContactId
+	(*UserId)(nil),                // 4: genproto.UserId
+	(*ContactUpdate)(nil),         // 5: genproto.ContactUpdate
+	(*ContactDelete)(nil),         // 6: genproto.ContactDelete
 }
 var file_contact_proto_depIdxs = []int32{
 	0, // 0: genproto.GetAllContactResponse.contacts:type_name -> genproto.Contact
@@ -382,30 +472,6 @@ func file_contact_proto_init() {
 			}
 		}
 		file_contact_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ContactId); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_contact_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAllContactRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_contact_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetAllContactResponse); i {
 			case 0:
 				return &v.state
@@ -417,8 +483,56 @@ func file_contact_proto_init() {
 				return nil
 			}
 		}
+		file_contact_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContactUserId); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_contact_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContactId); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_contact_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserId); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_contact_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ContactUpdate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_contact_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContactDelete); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -436,7 +550,7 @@ func file_contact_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_contact_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
