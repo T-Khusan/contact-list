@@ -34,6 +34,8 @@ func (h *handlerV1) UserIdentify(c *gin.Context) {
 		},
 	)
 
+	fmt.Println(userID)
+
 	if err != nil {
 		models.NewErrorResponce(c, http.StatusUnauthorized, err.Error())
 		return
