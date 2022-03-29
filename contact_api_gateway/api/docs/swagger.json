@@ -16,9 +16,9 @@
         "version": "1.0"
     },
     "paths": {
-        "/config": {
-            "get": {
-                "description": "shows config of the project only on the development phase",
+        "/auth/sign-in": {
+            "post": {
+                "description": "Login User",
                 "consumes": [
                     "application/json"
                 ],
@@ -26,22 +26,24 @@
                     "application/json"
                 ],
                 "tags": [
-                    "config"
+                    "User"
                 ],
-                "summary": "gets project config",
-                "operationId": "get-config",
+                "summary": "Login User",
+                "operationId": "sign-in-user",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "name",
-                        "name": "name",
-                        "in": "query",
-                        "required": true
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SigninInput"
+                        }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "desc",
+                    "201": {
+                        "description": "User data",
                         "schema": {
                             "allOf": [
                                 {
@@ -51,7 +53,90 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/config.Config"
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ResponseModel"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ResponseModel"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sign-up": {
+            "post": {
+                "description": "Create User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create User",
+                "operationId": "create_user",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User data",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ResponseModel"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -184,108 +269,9 @@
                     }
                 }
             }
-        },
-        "/v1/ping": {
-            "get": {
-                "description": "this returns \"pong\" messsage to show service is working",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "config"
-                ],
-                "summary": "returns \"pong\" message",
-                "operationId": "ping",
-                "responses": {
-                    "200": {
-                        "description": "desc",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.ResponseModel"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.ResponseModel"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
-        "config.Config": {
-            "type": "object",
-            "properties": {
-                "contactServiceHost": {
-                    "type": "string"
-                },
-                "contactServicePort": {
-                    "type": "integer"
-                },
-                "environment": {
-                    "description": "develop, staging, production",
-                    "type": "string"
-                },
-                "httpPort": {
-                    "type": "string"
-                },
-                "logLevel": {
-                    "type": "string"
-                },
-                "minioAccessKeyID": {
-                    "type": "string"
-                },
-                "minioBucketName": {
-                    "type": "string"
-                },
-                "minioEndpoint": {
-                    "type": "string"
-                },
-                "minioHost": {
-                    "type": "string"
-                },
-                "minioLocation": {
-                    "type": "string"
-                },
-                "minioSecretKey": {
-                    "type": "string"
-                },
-                "userServiceHost": {
-                    "type": "string"
-                },
-                "userServicePort": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.CreateContactModel": {
             "type": "object",
             "required": [
@@ -310,6 +296,36 @@
                 "data": {},
                 "error": {},
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SigninInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserModel": {
+            "type": "object",
+            "required": [
+                "lastname",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "lastname": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 }
             }

@@ -63,13 +63,13 @@ func New(opt *RouterOptions) *gin.Engine {
 		Services: opt.Services,
 	})
 
-	router.GET("/config", handlerV1.GetConfig)
+	// router.GET("/config", handlerV1.GetConfig)
 
-	// auth := router.Group("/auth")
-	// {
-	// 	auth.POST("/sign-up", h.signUp)
-	// 	auth.POST("/sign-in", h.signIn)
-	// }
+	auth := router.Group("/auth")
+	{
+		auth.POST("/sign-up", handlerV1.SignUp)
+		auth.POST("/sign-in", handlerV1.SignIn)
+	}
 
 	apiV1 := router.Group("/v1", handlerV1.UserIdentify)
 

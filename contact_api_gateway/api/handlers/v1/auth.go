@@ -9,6 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// SignUp godoc
+// @ID create_user
+// @Router /auth/sign-up [POST]
+// @Summary Create User
+// @Description Create User
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body models.UserModel true "user"
+// @Success 201 {object} models.ResponseModel{data=string} "User data"
+// @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
+// @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
 func (h *handlerV1) SignUp(c *gin.Context) {
 	var user models.UserModel
 
@@ -33,7 +45,19 @@ func (h *handlerV1) SignUp(c *gin.Context) {
 	h.handleSuccessResponse(c, http.StatusOK, "ok", id)
 }
 
-func (h *handlerV1) signIn(c *gin.Context) {
+// SignIn godoc
+// @ID sign-in-user
+// @Router /auth/sign-in [POST]
+// @Summary Login User
+// @Description Login User
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body models.SigninInput true "user"
+// @Success 201 {object} models.ResponseModel{data=string} "User data"
+// @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
+// @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
+func (h *handlerV1) SignIn(c *gin.Context) {
 	var user models.SigninInput
 
 	if err := c.BindJSON(&user); err != nil {

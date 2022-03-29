@@ -23,7 +23,6 @@ import (
 // @Param contact body models.CreateContactModel true "contact"
 // @Success 200 {object} models.ResponseModel{data=string} "desc"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
-// @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
 func (h *handlerV1) CreateContact(c *gin.Context) {
 

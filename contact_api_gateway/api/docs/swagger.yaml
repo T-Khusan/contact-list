@@ -1,34 +1,4 @@
 definitions:
-  config.Config:
-    properties:
-      contactServiceHost:
-        type: string
-      contactServicePort:
-        type: integer
-      environment:
-        description: develop, staging, production
-        type: string
-      httpPort:
-        type: string
-      logLevel:
-        type: string
-      minioAccessKeyID:
-        type: string
-      minioBucketName:
-        type: string
-      minioEndpoint:
-        type: string
-      minioHost:
-        type: string
-      minioLocation:
-        type: string
-      minioSecretKey:
-        type: string
-      userServiceHost:
-        type: string
-      userServicePort:
-        type: integer
-    type: object
   models.CreateContactModel:
     properties:
       name:
@@ -48,6 +18,26 @@ definitions:
       message:
         type: string
     type: object
+  models.SigninInput:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.UserModel:
+    properties:
+      lastname:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - lastname
+    - name
+    - password
+    type: object
 info:
   contact:
     email: support@swagger.io
@@ -61,29 +51,30 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /config:
-    get:
+  /auth/sign-in:
+    post:
       consumes:
       - application/json
-      description: shows config of the project only on the development phase
-      operationId: get-config
+      description: Login User
+      operationId: sign-in-user
       parameters:
-      - description: name
-        in: query
-        name: name
+      - description: user
+        in: body
+        name: user
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.SigninInput'
       produces:
       - application/json
       responses:
-        "200":
-          description: desc
+        "201":
+          description: User data
           schema:
             allOf:
             - $ref: '#/definitions/models.ResponseModel'
             - properties:
                 data:
-                  $ref: '#/definitions/config.Config'
+                  type: string
               type: object
         "400":
           description: Bad Request
@@ -103,9 +94,55 @@ paths:
                 error:
                   type: string
               type: object
-      summary: gets project config
+      summary: Login User
       tags:
-      - config
+      - User
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Create User
+      operationId: create_user
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User data
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseModel'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create User
+      tags:
+      - User
   /v1/contact:
     post:
       consumes:
@@ -154,36 +191,6 @@ paths:
       summary: create contact
       tags:
       - contact
-  /v1/ping:
-    get:
-      consumes:
-      - application/json
-      description: this returns "pong" messsage to show service is working
-      operationId: ping
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: desc
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.ResponseModel'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.ResponseModel'
-            - properties:
-                error:
-                  type: string
-              type: object
-      summary: returns "pong" message
-      tags:
-      - config
 securityDefinitions:
   ApiKeyAuth:
     in: header
