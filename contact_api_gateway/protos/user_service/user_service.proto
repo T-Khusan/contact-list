@@ -7,6 +7,6 @@ import "user.proto";
 
 service UserService {
     rpc CreateUser(User) returns (UserrId) {}
-    rpc GenerateToken(GetAllUserRequest) returns (GetTokenResponse) {}
-    rpc ParseToken(GetTokenResponse) returns (GetTokenResponse) {}
+    rpc GenerateToken(GetAllUserRequest) returns (GetToken) {}
+    rpc ParseToken(GetToken) returns (GetTokenResponse) {}
 }

@@ -43,9 +43,9 @@ func (h *handlerV1) CreateContact(c *gin.Context) {
 	id, err := h.services.ContactService().Create(
 		context.Background(),
 		&contact_service.Contact{
-			Name:  input.Name,
-			Phone: input.Phone,
-			Id:    userID,
+			Name:   input.Name,
+			Phone:  input.Phone,
+			UserId: userID,
 		},
 	)
 	if !handleError(h.log, c, err, "error while creating contact") {

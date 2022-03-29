@@ -19,9 +19,12 @@ message GetAllUserRequest {
     string password = 4;
     string name = 3;
 }
+message GetToken {
+    string token = 1;
+}
 
 message GetTokenResponse {
-    string token = 1;
+    string user_id = 1;
 }
 // message GetAllUserResponse {
 //     repeated User users = 1;

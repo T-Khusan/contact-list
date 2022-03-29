@@ -28,19 +28,18 @@ var File_user_service_proto protoreflect.FileDescriptor
 var file_user_service_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0a,
-	0x75, 0x73, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0xd4, 0x01, 0x0a, 0x0b, 0x55,
+	0x75, 0x73, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0xc4, 0x01, 0x0a, 0x0b, 0x55,
 	0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x31, 0x0a, 0x0a, 0x43, 0x72,
 	0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x1a, 0x11, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x72, 0x49, 0x64, 0x22, 0x00, 0x12, 0x4a, 0x0a,
+	0x6f, 0x74, 0x6f, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x72, 0x49, 0x64, 0x22, 0x00, 0x12, 0x42, 0x0a,
 	0x0d, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x1b,
 	0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x67, 0x65,
-	0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x46, 0x0a, 0x0a, 0x50, 0x61, 0x72,
-	0x73, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x1a, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x1a, 0x1a, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47,
+	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x67, 0x65,
+	0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22,
+	0x00, 0x12, 0x3e, 0x0a, 0x0a, 0x50, 0x61, 0x72, 0x73, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x12, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x1a, 0x1a, 0x2e, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x47,
 	0x65, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
 	0x00, 0x42, 0x17, 0x5a, 0x15, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x75, 0x73,
 	0x65, 0x72, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
@@ -50,16 +49,17 @@ var file_user_service_proto_rawDesc = []byte{
 var file_user_service_proto_goTypes = []interface{}{
 	(*User)(nil),              // 0: genproto.User
 	(*GetAllUserRequest)(nil), // 1: genproto.GetAllUserRequest
-	(*GetTokenResponse)(nil),  // 2: genproto.GetTokenResponse
+	(*GetToken)(nil),          // 2: genproto.GetToken
 	(*UserrId)(nil),           // 3: genproto.UserrId
+	(*GetTokenResponse)(nil),  // 4: genproto.GetTokenResponse
 }
 var file_user_service_proto_depIdxs = []int32{
 	0, // 0: genproto.UserService.CreateUser:input_type -> genproto.User
 	1, // 1: genproto.UserService.GenerateToken:input_type -> genproto.GetAllUserRequest
-	2, // 2: genproto.UserService.ParseToken:input_type -> genproto.GetTokenResponse
+	2, // 2: genproto.UserService.ParseToken:input_type -> genproto.GetToken
 	3, // 3: genproto.UserService.CreateUser:output_type -> genproto.UserrId
-	2, // 4: genproto.UserService.GenerateToken:output_type -> genproto.GetTokenResponse
-	2, // 5: genproto.UserService.ParseToken:output_type -> genproto.GetTokenResponse
+	2, // 4: genproto.UserService.GenerateToken:output_type -> genproto.GetToken
+	4, // 5: genproto.UserService.ParseToken:output_type -> genproto.GetTokenResponse
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -105,8 +105,8 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserServiceClient interface {
 	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserrId, error)
-	GenerateToken(ctx context.Context, in *GetAllUserRequest, opts ...grpc.CallOption) (*GetTokenResponse, error)
-	ParseToken(ctx context.Context, in *GetTokenResponse, opts ...grpc.CallOption) (*GetTokenResponse, error)
+	GenerateToken(ctx context.Context, in *GetAllUserRequest, opts ...grpc.CallOption) (*GetToken, error)
+	ParseToken(ctx context.Context, in *GetToken, opts ...grpc.CallOption) (*GetTokenResponse, error)
 }
 
 type userServiceClient struct {
@@ -126,8 +126,8 @@ func (c *userServiceClient) CreateUser(ctx context.Context, in *User, opts ...gr
 	return out, nil
 }
 
-func (c *userServiceClient) GenerateToken(ctx context.Context, in *GetAllUserRequest, opts ...grpc.CallOption) (*GetTokenResponse, error) {
-	out := new(GetTokenResponse)
+func (c *userServiceClient) GenerateToken(ctx context.Context, in *GetAllUserRequest, opts ...grpc.CallOption) (*GetToken, error) {
+	out := new(GetToken)
 	err := c.cc.Invoke(ctx, "/genproto.UserService/GenerateToken", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (c *userServiceClient) GenerateToken(ctx context.Context, in *GetAllUserReq
 	return out, nil
 }
 
-func (c *userServiceClient) ParseToken(ctx context.Context, in *GetTokenResponse, opts ...grpc.CallOption) (*GetTokenResponse, error) {
+func (c *userServiceClient) ParseToken(ctx context.Context, in *GetToken, opts ...grpc.CallOption) (*GetTokenResponse, error) {
 	out := new(GetTokenResponse)
 	err := c.cc.Invoke(ctx, "/genproto.UserService/ParseToken", in, out, opts...)
 	if err != nil {
@@ -147,8 +147,8 @@ func (c *userServiceClient) ParseToken(ctx context.Context, in *GetTokenResponse
 // UserServiceServer is the server API for UserService service.
 type UserServiceServer interface {
 	CreateUser(context.Context, *User) (*UserrId, error)
-	GenerateToken(context.Context, *GetAllUserRequest) (*GetTokenResponse, error)
-	ParseToken(context.Context, *GetTokenResponse) (*GetTokenResponse, error)
+	GenerateToken(context.Context, *GetAllUserRequest) (*GetToken, error)
+	ParseToken(context.Context, *GetToken) (*GetTokenResponse, error)
 }
 
 // UnimplementedUserServiceServer can be embedded to have forward compatible implementations.
@@ -158,10 +158,10 @@ type UnimplementedUserServiceServer struct {
 func (*UnimplementedUserServiceServer) CreateUser(context.Context, *User) (*UserrId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (*UnimplementedUserServiceServer) GenerateToken(context.Context, *GetAllUserRequest) (*GetTokenResponse, error) {
+func (*UnimplementedUserServiceServer) GenerateToken(context.Context, *GetAllUserRequest) (*GetToken, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenerateToken not implemented")
 }
-func (*UnimplementedUserServiceServer) ParseToken(context.Context, *GetTokenResponse) (*GetTokenResponse, error) {
+func (*UnimplementedUserServiceServer) ParseToken(context.Context, *GetToken) (*GetTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParseToken not implemented")
 }
 
@@ -206,7 +206,7 @@ func _UserService_GenerateToken_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _UserService_ParseToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTokenResponse)
+	in := new(GetToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -218,7 +218,7 @@ func _UserService_ParseToken_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/genproto.UserService/ParseToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).ParseToken(ctx, req.(*GetTokenResponse))
+		return srv.(UserServiceServer).ParseToken(ctx, req.(*GetToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }

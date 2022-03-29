@@ -54,7 +54,7 @@ func (s *userService) CreateUser(ctx context.Context, req *user_service.User) (*
 }
 
 // GenerateToken ...
-func (s *userService) GenerateToken(ctx context.Context, req *user_service.GetAllUserRequest) (*user_service.GetTokenResponse, error) {
+func (s *userService) GenerateToken(ctx context.Context, req *user_service.GetAllUserRequest) (*user_service.GetToken, error) {
 	user, err := s.storage.User().GetUser(req.Name, hashPassword(req.Password))
 	if err != nil {
 		return nil, err
@@ -73,13 +73,13 @@ func (s *userService) GenerateToken(ctx context.Context, req *user_service.GetAl
 	if err != nil {
 		return nil, err
 	}
-	return &user_service.GetTokenResponse{
+	return &user_service.GetToken{
 		Token: tokenStr,
 	}, nil
 }
 
 // ParseToken token parse and return user id
-func (s *userService) ParseToken(ctx context.Context, req *user_service.GetTokenResponse) (*user_service.GetTokenResponse, error) {
+func (s *userService) ParseToken(ctx context.Context, req *user_service.GetToken) (*user_service.GetTokenResponse, error) {
 	tk, err := jwt.ParseWithClaims(req.Token, &tokenClaims{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
@@ -98,7 +98,7 @@ func (s *userService) ParseToken(ctx context.Context, req *user_service.GetToken
 	}
 
 	return &user_service.GetTokenResponse{
-		Token: cl.UserID,
+		UserId: cl.UserID,
 	}, nil
 }
 

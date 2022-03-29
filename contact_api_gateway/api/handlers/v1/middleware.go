@@ -3,9 +3,8 @@ package v1
 import (
 	"context"
 	"errors"
-	"log"
+	"fmt"
 	"net/http"
-	"strings"
 
 	"contact_api_gateway/api/models"
 	"contact_api_gateway/genproto/user_service"
@@ -21,17 +20,17 @@ func (h *handlerV1) UserIdentify(c *gin.Context) {
 		return
 	}
 
-	headerParts := strings.Split(header, " ")
-	log.Print("----------------->>>>", headerParts[1])
-	if len(headerParts[1]) != 2 {
-		models.NewErrorResponce(c, http.StatusUnauthorized, "invalid auth header")
-		return
-	}
+	// headerParts := strings.Split(header, " ")
+	fmt.Println(header)
+	// if headerParts[ == "" {
+	// 	models.NewErrorResponce(c, http.StatusUnauthorized, "invalid auth header")
+	// 	return
+	// }
 
 	userID, err := h.services.UserService().ParseToken(
 		context.Background(),
-		&user_service.GetTokenResponse{
-			Token: headerParts[1],
+		&user_service.GetToken{
+			Token: header,
 		},
 	)
 
