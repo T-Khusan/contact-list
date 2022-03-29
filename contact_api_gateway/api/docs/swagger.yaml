@@ -154,53 +154,6 @@ paths:
       summary: create contact
       tags:
       - contact
-  /v1/contact/{contact_id}:
-    get:
-      consumes:
-      - application/json
-      description: Get Contact
-      operationId: get-contact
-      parameters:
-      - description: contact_id
-        in: path
-        name: contact_id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: desc
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.ResponseModel'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.ResponseModel'
-            - properties:
-                error:
-                  type: string
-              type: object
-        "500":
-          description: Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.ResponseModel'
-            - properties:
-                error:
-                  type: string
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: get contact
-      tags:
-      - contact
   /v1/ping:
     get:
       consumes:

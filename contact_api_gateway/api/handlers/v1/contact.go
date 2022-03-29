@@ -70,36 +70,35 @@ func (h *handlerV1) CreateContact(c *gin.Context) {
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
-func (h *handlerV1) GetContact(c *gin.Context) {
-	userID, err := getUserID(c)
-	if err != nil {
-		return
-	}
+// func (h *handlerV1) GetContact(c *gin.Context) {
+// 	userID, err := getUserID(c)
+// 	if err != nil {
+// 		return
+// 	}
 
-	var id string
-	id = c.Param("id")
+// 	var id string
+// 	id = c.Param("id")
 
-	mycontact, err := h.services.ContactService().Get(
-		context.Background(),
-		&contact_service.ContactUserId{
-			Id:     id,
-			UserId: userID,
-		},
-	)
+// 	mycontact, err := h.services.ContactService().Get(
+// 		context.Background(),
+// 		&contact_service.ContactUserId{
+// 			Id:     id,
+// 			UserId: userID,
+// 		},
+// 	)
 
-	if !handleError(h.log, c, err, "error while getting contact") {
-		return
-	}
+// 	if !handleError(h.log, c, err, "error while getting contact") {
+// 		return
+// 	}
 
-	output := &contact_service.Contact{
-		Id:     id,
-		Name:   mycontact.Name,
-		Phone:  mycontact.Phone,
-		UserId: userID,
-	}
-	c.JSON(http.StatusOK, output)
-}
-
+// 	output := &contact_service.Contact{
+// 		Id:     id,
+// 		Name:   mycontact.Name,
+// 		Phone:  mycontact.Phone,
+// 		UserId: userID,
+// 	}
+// 	c.JSON(http.StatusOK, output)
+// }
 
 /*
 func (h *handlerV1) GetAllContact(c *gin.Context) {

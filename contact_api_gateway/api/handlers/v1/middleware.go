@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	"errors"
+	"log"
 	"net/http"
 	"strings"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handlerV1) userIdentify(c *gin.Context) {
+func (h *handlerV1) UserIdentify(c *gin.Context) {
 	header := c.GetHeader("Authorization")
 
 	if header == "" {
@@ -21,8 +22,8 @@ func (h *handlerV1) userIdentify(c *gin.Context) {
 	}
 
 	headerParts := strings.Split(header, " ")
-
-	if len(headerParts) != 2 {
+	log.Print("----------------->>>>", headerParts[1])
+	if len(headerParts[1]) != 2 {
 		models.NewErrorResponce(c, http.StatusUnauthorized, "invalid auth header")
 		return
 	}
@@ -49,11 +50,11 @@ func getUserID(c *gin.Context) (string, error) {
 		return "", errors.New("user id not found")
 	}
 
-	idInt, ok := id.(string)
+	idStr, ok := id.(string)
 	if !ok {
 		models.NewErrorResponce(c, http.StatusInternalServerError, "user id not found")
 		return "", errors.New("user id not found")
 	}
 
-	return idInt, nil
+	return idStr, nil
 }

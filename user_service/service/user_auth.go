@@ -41,14 +41,14 @@ func NewUserService(db *sqlx.DB, log logger.Logger) *userService {
 }
 
 // CreateUser ...
-func (s *userService) CreateUser(ctx context.Context, req *user_service.User) (*user_service.UserId, error) {
+func (s *userService) CreateUser(ctx context.Context, req *user_service.User) (*user_service.UserrId, error) {
 	req.Password = hashPassword(req.Password)
 	id, err := s.storage.User().CreateUser(req)
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while create user", req, codes.Internal)
 	}
 
-	return &user_service.UserId{
+	return &user_service.UserrId{
 		Id: id,
 	}, nil
 }

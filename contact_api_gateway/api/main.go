@@ -65,15 +65,24 @@ func New(opt *RouterOptions) *gin.Engine {
 
 	router.GET("/config", handlerV1.GetConfig)
 
-	apiV1 := router.Group("/v1")
-	apiV1.GET("/ping", handlerV1.Ping)
+	// auth := router.Group("/auth")
+	// {
+	// 	auth.POST("/sign-up", h.signUp)
+	// 	auth.POST("/sign-in", h.signIn)
+	// }
 
-	// contact
-	apiV1.POST("/contact", handlerV1.CreateContact)
-	// apiV1.GET("/profession", handlerV1.GetAllProfessions)
-	// apiV1.GET("/profession/:profession_id", handlerV1.GetProfession)
-	// apiV1.PUT("/profession/:profession_id", handlerV1.UpdateProfession)
-	// apiV1.DELETE("/profession/:profession_id", handlerV1.DeleteProfession)
+	apiV1 := router.Group("/v1", handlerV1.UserIdentify)
+	{
+		contacts := apiV1.Group("/contact")
+		{
+			contacts.POST("/", handlerV1.CreateContact)
+			// contacts.GET("/", handlerV1.getAllContact)
+			// contacts.GET("/:id", handlerV1.getContact)
+			// contacts.PUT("/:id", handlerV1.updateContact)
+			// contacts.DELETE("/:id", handlerV1.deleteContact)
+
+		}
+	}
 
 	// swagger
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition

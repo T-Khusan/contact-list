@@ -6,7 +6,7 @@ option go_package="genproto/user_service";
 import "user.proto";
 
 service UserService {
-    rpc CreateUser(User) returns (UserId) {}
+    rpc CreateUser(User) returns (UserrId) {}
     rpc GenerateToken(GetAllUserRequest) returns (GetTokenResponse) {}
     rpc ParseToken(GetTokenResponse) returns (GetTokenResponse) {}
 }
