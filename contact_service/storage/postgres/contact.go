@@ -101,6 +101,7 @@ func (r *contactRepo) Get(req *contact_service.ContactUserId) (*contact_service.
 
 	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
 
+	// 1
 	// row := r.db.QueryRow(query, req.UserId, req.Id)
 	// err := row.Scan(
 	// 	&contact.UserId,
@@ -109,10 +110,39 @@ func (r *contactRepo) Get(req *contact_service.ContactUserId) (*contact_service.
 	// 	&contact.Id,
 	// )
 
-	err := r.db.Get(&contact, query, req.UserId, req.Id)
+	// 2.
+	// err := r.db.Get(&contact, query, req.UserId, req.Id)
+
+	// rows, err := r.db.Query(
+	// 	query,
+	// 	req.UserId,
+	// 	req.Id,
+	// )
+	// defer rows.Close()
+
+	rows, err := r.db.Query(
+		query,
+		req.UserId,
+		req.Id,
+	)
+
+	defer rows.Close()
 
 	if err != nil {
 		return nil, err
+	}
+
+	for rows.Next() {
+		err = rows.Scan(
+			&contact.Id,
+			&contact.Name,
+			&contact.Phone,
+			&contact.UserId,
+		)
+
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &contact, nil
