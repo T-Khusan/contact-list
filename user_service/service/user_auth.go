@@ -60,12 +60,10 @@ func (s *userService) GenerateToken(ctx context.Context, req *user_service.GetAl
 		return nil, err
 	}
 
-	tk := tokenClaims{
-		user.Id,
-		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(timeToken).Unix(),
-			IssuedAt:  time.Now().Unix(),
-		},
+	tk := jwt.StandardClaims{
+		Subject:   user.Id,
+		ExpiresAt: time.Now().Add(timeToken).Unix(),
+		IssuedAt:  time.Now().Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
@@ -87,6 +85,7 @@ func (s *userService) ParseToken(ctx context.Context, req *user_service.GetToken
 
 		return []byte(signingKey), nil
 	})
+	fmt.Println("+++++++", err)
 
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while parsing token", req, codes.Internal)

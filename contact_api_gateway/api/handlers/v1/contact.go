@@ -27,6 +27,10 @@ import (
 func (h *handlerV1) CreateContact(c *gin.Context) {
 
 	userID, err := getUserID(c)
+	if err != nil {
+		models.NewErrorResponce(c, http.StatusInternalServerError, "user id not found")
+		return
+	}
 
 	var input models.CreateContactModel
 

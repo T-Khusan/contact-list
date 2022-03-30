@@ -12,6 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const userIDCtx string = "user_id_ctx"
+
 func (h *handlerV1) UserIdentify(c *gin.Context) {
 	header := c.GetHeader("Authorization")
 
@@ -34,26 +36,24 @@ func (h *handlerV1) UserIdentify(c *gin.Context) {
 		},
 	)
 
-	fmt.Println(userID)
+	fmt.Println("+++++++++", userID)
 
 	if err != nil {
 		models.NewErrorResponce(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 
-	c.Set("userID", userID)
+	c.Set(userIDCtx, userID)
 }
 
 func getUserID(c *gin.Context) (string, error) {
-	id, ok := c.Get("userID")
+	id, ok := c.Get(userIDCtx)
 	if !ok {
-		models.NewErrorResponce(c, http.StatusInternalServerError, "user id not found")
 		return "", errors.New("user id not found")
 	}
 
 	idStr, ok := id.(string)
 	if !ok {
-		models.NewErrorResponce(c, http.StatusInternalServerError, "user id not found")
 		return "", errors.New("user id not found")
 	}
 
