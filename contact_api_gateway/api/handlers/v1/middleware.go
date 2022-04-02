@@ -43,7 +43,7 @@ func (h *handlerV1) UserIdentify(c *gin.Context) {
 		return
 	}
 
-	c.Set(userIDCtx, userID)
+	c.Set(userIDCtx, userID.UserId)
 }
 
 func getUserID(c *gin.Context) (string, error) {

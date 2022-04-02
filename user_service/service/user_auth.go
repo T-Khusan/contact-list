@@ -91,13 +91,14 @@ func (s *userService) ParseToken(ctx context.Context, req *user_service.GetToken
 		return nil, helper.HandleError(s.logger, err, "error while parsing token", req, codes.Internal)
 	}
 
-	cl, ok := tk.Claims.(*tokenClaims)
+	claims, ok := tk.Claims.(*tokenClaims)
+
 	if !ok {
-		return nil, helper.HandleError(s.logger, err, "token claims are not of type *tokenClaims", req, codes.Internal)
+		return nil, helper.HandleError(s.logger, err, "token claims are not of type jwt.MapClaims", req, codes.Internal)
 	}
 
 	return &user_service.GetTokenResponse{
-		UserId: cl.UserID,
+		UserId: claims.Subject,
 	}, nil
 }
 
