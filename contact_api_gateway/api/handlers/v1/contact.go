@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"net/http"
 
@@ -207,41 +208,52 @@ func (h *handlerV1) UpdateContact(c *gin.Context) {
 
 }
 
-/*
 // Delete Contact godoc
-// @ID delete_profession
+// @ID delete_contact
 // @Security ApiKeyAuth
 // @Router /v1/contact/{contact_id} [DELETE]
 // @Summary Delete Contact
 // @Description Delete Contact by given ID
-// @Tags profession
+// @Tags contact
 // @Accept json
 // @Produce json
-// @Param Id path string true "contact_id"
-// @Success 200 {object} models.ResponseModel{data=models.NameModel} "desc"
+// @Param contact_id path string true "contact_id"
+// @Success 200 {object} models.ResponseModel{data=models.ContactUpdate} "desc"
 // @Response 400 {object} models.ResponseModel{error=string} "Bad Request"
 // @Failure 500 {object} models.ResponseModel{error=string} "Server Error"
-// func (h *handlerV1) DeleteContact(c *gin.Context) {
-// 	userID, err := getUserID(c)
-// 	if err != nil {
-// 		return
-// 	}
+func (h *handlerV1) DeleteContact(c *gin.Context) {
+	var status models.ContactUpdate
 
-// 	var id int
-// 	id, err = strconv.Atoi(c.Param("id"))
-// 	if err != nil {
-// 		models.NewErrorResponce(c, http.StatusBadRequest, "invalid id param")
-// 		return
-// 	}
+	userID, err := getUserID(c)
+	if err != nil {
+		return
+	}
 
-// 	err = h.services.ContactService().Delete(userID, id)
-// 	if err != nil {
-// 		models.NewErrorResponce(c, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	contact_id := c.Param("contact_id")
 
-// 	c.JSON(http.StatusOK, map[string]interface{}{
-// 		"status": "ok",
-// 	})
-// }
-*/
+	if !util.IsValidUUID(contact_id) {
+		h.handleErrorResponse(c, http.StatusBadRequest, "invalid position id", errors.New("contact id is not valid"))
+		return
+	}
+
+	resp, err := h.services.ContactService().Delete(
+		context.Background(),
+		&contact_service.ContactUserId{
+			Id:     contact_id,
+			UserId: userID,
+		},
+	)
+
+	fmt.Println("RESP+++++", resp)
+
+	if !handleError(h.log, c, err, "error while getting position") {
+		return
+	}
+
+	err = ParseToStruct(&status, resp)
+	if !handleError(h.log, c, err, "error while parsing to struct") {
+		return
+	}
+
+	h.handleSuccessResponse(c, http.StatusOK, "ok", status)
+}

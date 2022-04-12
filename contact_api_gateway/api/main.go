@@ -77,7 +77,7 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1.GET("/contact", handlerV1.GetAllContact)
 	apiV1.GET("/contact/:contact_id", handlerV1.GetContact)
 	apiV1.PUT("/contact/:contact_id", handlerV1.UpdateContact)
-	// apiV1.DELETE("/contact/:contact_id", handlerV1.DeleteContact)
+	apiV1.DELETE("/contact/:contact_id", handlerV1.DeleteContact)
 
 	// swagger
 	url := ginSwagger.URL("swagger/doc.json") // The url pointing to API definition

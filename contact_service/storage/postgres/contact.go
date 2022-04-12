@@ -67,11 +67,11 @@ func (r *contactRepo) GetAll(req *contact_service.UserId) (*contact_service.GetA
 		query,
 		req.UserId,
 	)
-	defer rows.Close()
-
 	if err != nil {
 		return nil, err
 	}
+
+	defer rows.Close()
 
 	for rows.Next() {
 		var contact contact_service.Contact
@@ -101,36 +101,17 @@ func (r *contactRepo) Get(req *contact_service.ContactUserId) (*contact_service.
 
 	query := `SELECT id, name, phone, user_id FROM contact WHERE user_id = $1 AND id=$2`
 
-	// 1
-	// row := r.db.QueryRow(query, req.UserId, req.Id)
-	// err := row.Scan(
-	// 	&contact.UserId,
-	// 	&contact.Name,
-	// 	&contact.Phone,
-	// 	&contact.Id,
-	// )
-
-	// 2.
-	// err := r.db.Get(&contact, query, req.UserId, req.Id)
-
-	// rows, err := r.db.Query(
-	// 	query,
-	// 	req.UserId,
-	// 	req.Id,
-	// )
-	// defer rows.Close()
-
 	rows, err := r.db.Query(
 		query,
 		req.UserId,
 		req.Id,
 	)
 
-	defer rows.Close()
-
 	if err != nil {
 		return nil, err
 	}
+
+	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.Scan(
